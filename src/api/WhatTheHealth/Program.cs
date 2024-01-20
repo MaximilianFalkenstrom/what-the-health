@@ -1,4 +1,6 @@
 
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+
 namespace WhatTheHealth;
 
 public class Program
@@ -8,6 +10,32 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        var MyAllowSpecificOrigins = "AllowedOrigins";
+
+        var origins = builder.Configuration.GetValue<string>("Authentication:Origins");
+        if (origins != null)
+        {
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins();
+                                      policy.AllowCredentials();
+                                      policy.AllowAnyHeader();
+                                  });
+            });
+        }
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        }).AddJwtBearer(options =>
+        {
+            options.Authority = builder.Configuration.GetValue<string>("Authentication:Authority");
+            options.Audience = builder.Configuration.GetValue<string>("Authentication:Audience");
+        });
 
         builder.Services.AddControllers();
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -25,8 +53,10 @@ public class Program
 
         app.UseHttpsRedirection();
 
-        app.UseAuthorization();
+        app.UseCors(MyAllowSpecificOrigins);
 
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.MapControllers();
 
