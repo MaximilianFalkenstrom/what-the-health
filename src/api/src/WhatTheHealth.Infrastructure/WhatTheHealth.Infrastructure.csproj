@@ -1,0 +1,13 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WhatTheHealth.Core\WhatTheHealth.Core.csproj" />
+    <ProjectReference Include="..\WhatTheHealth.Domain\WhatTheHealth.Domain.csproj" />
+  </ItemGroup>
+</Project>

@@ -3,7 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatTheHealth.API", "WhatTheHealth\WhatTheHealth.API.csproj", "{D6B87E14-03B9-4138-9F0D-D782A782BA0B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatTheHealth.API", "src\WhatTheHealth.API\WhatTheHealth.API.csproj", "{D6B87E14-03B9-4138-9F0D-D782A782BA0B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatTheHealth.Core", "src\WhatTheHealth.Core\WhatTheHealth.Core.csproj", "{C40BF277-A1EE-4CC0-95E5-3132F71470A9}"
+	ProjectSection(ProjectDependencies) = postProject
+		{9CB15FAC-1F9A-4284-97E4-C87547F2870A} = {9CB15FAC-1F9A-4284-97E4-C87547F2870A}
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatTheHealth.Domain", "src\WhatTheHealth.Domain\WhatTheHealth.Domain.csproj", "{9CB15FAC-1F9A-4284-97E4-C87547F2870A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WhatTheHealth.Infrastructure", "src\WhatTheHealth.Infrastructure\WhatTheHealth.Infrastructure.csproj", "{C36F01FC-B423-4D29-922D-15C61CEE1951}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +24,18 @@ Global
 		{D6B87E14-03B9-4138-9F0D-D782A782BA0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6B87E14-03B9-4138-9F0D-D782A782BA0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6B87E14-03B9-4138-9F0D-D782A782BA0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C40BF277-A1EE-4CC0-95E5-3132F71470A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C40BF277-A1EE-4CC0-95E5-3132F71470A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C40BF277-A1EE-4CC0-95E5-3132F71470A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C40BF277-A1EE-4CC0-95E5-3132F71470A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CB15FAC-1F9A-4284-97E4-C87547F2870A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CB15FAC-1F9A-4284-97E4-C87547F2870A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CB15FAC-1F9A-4284-97E4-C87547F2870A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CB15FAC-1F9A-4284-97E4-C87547F2870A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C36F01FC-B423-4D29-922D-15C61CEE1951}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C36F01FC-B423-4D29-922D-15C61CEE1951}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C36F01FC-B423-4D29-922D-15C61CEE1951}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C36F01FC-B423-4D29-922D-15C61CEE1951}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

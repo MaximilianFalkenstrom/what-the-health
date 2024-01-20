@@ -1,4 +1,5 @@
-
+using WhatTheHealth.Core;
+using WhatTheHealth.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 
 namespace WhatTheHealth;
@@ -10,6 +11,10 @@ public class Program
         var builder = WebApplication.CreateBuilder(args);
 
         // Add services to the container.
+        builder.Services.AddCoreServices();
+        builder.Services.AddInfrastructureServices(builder.Configuration);
+
+
         var MyAllowSpecificOrigins = "AllowedOrigins";
 
         var origins = builder.Configuration.GetValue<string>("Authentication:Origins");
