@@ -1,4 +1,5 @@
 import "./App.css";
+import CalorieCircle from "./components/CalorieCircle";
 
 function App() {
   return (
@@ -6,19 +7,7 @@ function App() {
       <div>
         <h1>What the Health</h1>
       </div>
-      <div className="calContainer">
-        <div className="calorieProgressContainer">
-          <div className="pieChartOuter">
-            <div className="pieChartInner">
-              <h2 className="calories">2040</h2>
-              <p>Kcal left</p>
-            </div>
-          </div>
-          <svg>
-            <circle cx="60" cy="60" r="55" strokeLinecap="round"></circle>
-          </svg>
-        </div>
-      </div>
+      <CalorieCircle caloriesLeft={2040} />
       <div className="nutritionsProgressContainer">
         <div className="nutritionsProgress">
           <div className="progressBar">
