@@ -1,0 +1,15 @@
+meta {
+  name: Get all FoodItems
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseurl}}/api/fooditem
+  body: none
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}

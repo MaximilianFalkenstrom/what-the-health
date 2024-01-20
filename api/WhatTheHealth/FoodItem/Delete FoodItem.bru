@@ -1,0 +1,22 @@
+meta {
+  name: Delete FoodItem
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{baseurl}}/api/fooditem
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "a3e4f634-b76c-495e-a684-9f088db3ea39",
+    "name": "Ostbågarna",
+    "calories": 531,
+    "carbohydrates": 73.4,
+    "fat": 12.2,
+    "protein": 14.4
+  }
+}

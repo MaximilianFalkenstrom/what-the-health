@@ -1,0 +1,25 @@
+meta {
+  name: Create FoodItem
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseurl}}/api/fooditem
+  body: json
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+      "name": "Ostbågar",
+      "calories": 529,
+      "carbohydrates": 73.4,
+      "fat": 12.2,
+      "protein": 14.4
+  }
+}
