@@ -1,42 +1,78 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+h1 {
+  text-align: center;
+  margin: 20px;
+
+}
+
+.calContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.calorieProgressContainer {
+  position: relative;
+  height: 120px;
+  width: 120px;
+  margin-bottom: 20px;
+}
+
+.pieChartOuter {
+  position: absolute;
+  width: 120px;
+  height: 120px;
+  border: 1px solid;
+  padding: 4px;
+  border-radius: 50%;
+}
+
+.pieChartInner {
+  position: absolute;
+  width: 110px;
+  height: 110px;
+  border: 1px solid;
+  border-radius: 50%;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+circle {
+  fill: none;
+  stroke: white;
+  stroke-width: 10px;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+svg {
+  position: absolute;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.calories {
+  font-size: 2rem;
+  margin-top: 18px;
 }
 
-.card {
-  padding: 2em;
+p {
+  font-size: 0.75rem;
 }
 
-.read-the-docs {
-  color: #888;
+.nutritionsProgressContainer {
+  margin-left: 35px;
+  margin-right: 35px;
+  border-radius: 10px;
+  padding: 10px;
+  border: 2px solid;
 }
+
+.nutritionsProgress {
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+  margin-left: 15px;
+  margin-right: 15px;
+}
+
+.progressBar progress {
+  display: flex;
+  flex-direction: column;
+  width: 75px;
+}
+
+
