@@ -7,7 +7,7 @@ function App() {
       <div>
         <h1>What the Health</h1>
       </div>
-      <CalorieCircle caloriesLeft={2040} />
+      <CalorieCircle caloriesLeft={2000} caloriesTotal={3000} />
       <div className="nutritionsProgressContainer">
         <div className="nutritionsProgress">
           <div className="progressBar">

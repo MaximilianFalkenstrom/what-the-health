@@ -1,8 +1,13 @@
 type CalorieCircleProps = {
   caloriesLeft: number;
+  caloriesTotal: number;
 };
 
-export default function CalorieCircle({ caloriesLeft }: CalorieCircleProps) {
+export default function CalorieCircle({
+  caloriesLeft,
+  caloriesTotal,
+}: CalorieCircleProps) {
+  const circleFullness: number = 360 - 360 * (caloriesLeft / caloriesTotal);
   return (
     <div className="calContainer">
       <div className="calorieProgressContainer">
@@ -13,7 +18,18 @@ export default function CalorieCircle({ caloriesLeft }: CalorieCircleProps) {
           </div>
         </div>
         <svg>
-          <circle cx="60" cy="60" r="55" strokeLinecap="round"></circle>
+          <circle
+            cx="60"
+            cy="60"
+            r="57"
+            strokeLinecap="round"
+            key={circleFullness}
+            style={
+              {
+                "--circleFullness": circleFullness,
+              } as React.CSSProperties
+            }
+          ></circle>
         </svg>
       </div>
     </div>
