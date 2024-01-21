@@ -85,3 +85,18 @@ p {
   width: 75px;
 }
 
+
+.addFoodItem {
+  display: flex;
+  justify-content: center;
+  margin-top: 70px;
+}
+
+.addFoodItem button {
+  font-size: 2rem;
+  padding: 10px 20px;
+  border: none;
+  background-color: hsla(120, 72%, 55%, 0.637);
+  border-radius: 50%;
+  cursor: pointer;
+}
