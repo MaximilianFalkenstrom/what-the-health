@@ -25,7 +25,7 @@ public class Program
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                                   policy =>
                                   {
-                                      policy.WithOrigins();
+                                      policy.WithOrigins(origins);
                                       policy.AllowCredentials();
                                       policy.AllowAnyHeader();
                                   });
