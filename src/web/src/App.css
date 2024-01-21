@@ -35,10 +35,20 @@ h1 {
 }
 
 circle {
+  --circleFullness: 360;
   fill: none;
   stroke: white;
-  stroke-width: 10px;
+  stroke-width: 5px;
+  stroke-dasharray: 360;
+  stroke-dashoffset: 360;
+  animation: anim 2s linear forwards;
 }
+
+@keyframes anim {
+  100% {
+    stroke-dashoffset: var(--circleFullness);
+  }
+} 
 
 svg {
   position: absolute;
@@ -74,5 +84,4 @@ p {
   flex-direction: column;
   width: 75px;
 }
-
 
