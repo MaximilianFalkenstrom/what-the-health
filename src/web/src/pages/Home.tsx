@@ -1,8 +1,16 @@
 import "./css/Home.css";
 import AddFoodItemButton from "../components/AddFoodItemButton";
 import CalorieCircle from "../components/CalorieCircle";
+import LoginButton from "../components/LoginButton";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function Home() {
+  const { isAuthenticated } = useAuth0();
+  
+  if (!isAuthenticated) {
+    return <div><LoginButton /></div>;
+  }
+
   return (
     <>
       <div>
