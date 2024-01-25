@@ -1,7 +1,6 @@
 import { useState } from "react";
 import "./css/AddFoodItem.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import LoginButton from "../components/LoginButton";
 import { useNavigate } from "react-router";
 
 export default function AddFoodItem() {
@@ -49,7 +48,6 @@ export default function AddFoodItem() {
 
   return (
     <div className="form-container">
-      <LoginButton />
       <div>
         <label htmlFor="foodName">Food Name</label>
         <input
