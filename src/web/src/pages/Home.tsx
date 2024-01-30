@@ -1,5 +1,5 @@
 import "./css/Home.css";
-import AddFoodItemButton from "../components/AddFoodItemButton";
+import NewFoodItemButton from "../components/NewFoodItemButton";
 import CalorieCircle from "../components/CalorieCircle";
 import LoginButton from "../components/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
@@ -36,7 +36,7 @@ function Home() {
           </div>
         </div>
       </div>
-      <AddFoodItemButton />
+      <NewFoodItemButton />
     </>
   );
 }

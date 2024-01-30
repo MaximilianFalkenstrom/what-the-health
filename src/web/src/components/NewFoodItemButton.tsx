@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import './css/AddFoodItemButton.css';
+import './css/NewFoodItemButton.css';
 
-export default function AddFoodItemButton() {
+export default function NewFoodItemButton() {
   const navigate = useNavigate();
 
   return (
