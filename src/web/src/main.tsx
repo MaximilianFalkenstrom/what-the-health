@@ -4,6 +4,8 @@ import { BrowserRouter, useNavigate } from "react-router-dom";
 import { AppState, Auth0Provider, Auth0ProviderOptions } from "@auth0/auth0-react";
 import App from "./App.tsx";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const Auth0ProviderWithRedirectCallback = ({
   children,
@@ -22,6 +24,8 @@ const Auth0ProviderWithRedirectCallback = ({
   );
 };
 
+const queryClient = new QueryClient();
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
     <BrowserRouter>
@@ -34,7 +38,10 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         }}
         useRefreshTokens={true}
       >
+        <QueryClientProvider client={queryClient}>
           <App />
+          <ReactQueryDevtools initialIsOpen={false} />
+        </QueryClientProvider>
       </Auth0ProviderWithRedirectCallback>
     </BrowserRouter>
   </React.StrictMode>
