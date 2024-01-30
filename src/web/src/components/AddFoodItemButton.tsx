@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import './css/AddFoodItemButton.css';
 
 export default function AddFoodItemButton() {
   const navigate = useNavigate();
