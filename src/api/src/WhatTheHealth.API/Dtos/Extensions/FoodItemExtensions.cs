@@ -1,6 +1,6 @@
 ﻿using WhatTheHealth.Domain.Entities;
 
-namespace WhatTheHealth.Core.Services.FoodItems;
+namespace WhatTheHealth.API.Dtos.Extensions;
 
 public static class FoodItemExtensions
 {

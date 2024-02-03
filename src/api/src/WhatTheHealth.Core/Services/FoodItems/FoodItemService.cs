@@ -1,4 +1,6 @@
-﻿namespace WhatTheHealth.Core.Services.FoodItems;
+﻿using WhatTheHealth.Domain.Entities;
+
+namespace WhatTheHealth.Core.Services.FoodItems;
 
 public class FoodItemService : IFoodItemService
 {
@@ -9,45 +11,26 @@ public class FoodItemService : IFoodItemService
         _foodItemRepository = foodItemRepository;
     }
 
-    public async Task<FoodItemDto> Create(FoodItemDto foodItemDto)
+    public async Task<FoodItem> Create(FoodItem foodItem)
     {
-        var foodItem = foodItemDto.ToFoodItem();
-
-        var updatedFoodItem = await _foodItemRepository.Create(foodItem);
-
-        return updatedFoodItem.ToFoodItemDto();
+        return await _foodItemRepository.Create(foodItem);
     }
 
-    public async Task<FoodItemDto> Edit(FoodItemDto foodItemDto)
+    public async Task<FoodItem> Edit(FoodItem foodItem)
     {
-        var foodItem = foodItemDto.ToFoodItem();
-
-        var updatedFoodItem = await _foodItemRepository.Update(foodItem);
-
-        return updatedFoodItem.ToFoodItemDto();
+        return await _foodItemRepository.Update(foodItem);
     }
 
-    public IEnumerable<FoodItemDto> GetAll()
+    public IEnumerable<FoodItem> GetAll()
     {
-        var foodItems = _foodItemRepository.GetAll();
-
-        return foodItems.Select(foodItem => foodItem.ToFoodItemDto());
+        return _foodItemRepository.GetAll();
     }
 
-    public async Task<FoodItemDto> GetById(string id)
+    public async Task<FoodItem> GetById(string id)
     {
         var guid = Guid.Parse(id);
 
-        var foodItem = await _foodItemRepository.GetById(guid);
-
-        return foodItem.ToFoodItemDto();
-    }
-
-    public async Task Remove(FoodItemDto foodItemDto)
-    {
-        var foodItem = foodItemDto.ToFoodItem();
-
-        await _foodItemRepository.Delete(foodItem);
+        return await _foodItemRepository.GetById(guid);
     }
 
     public async Task RemoveById(string id)

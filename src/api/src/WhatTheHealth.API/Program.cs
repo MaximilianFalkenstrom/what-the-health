@@ -1,6 +1,10 @@
 using WhatTheHealth.Core;
 using WhatTheHealth.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using WhatTheHealth.API.Authorization.AuthorizationHandlers;
+using WhatTheHealth.API.Authorization.Constants;
+using WhatTheHealth.API.Authorization.Requirements;
 
 namespace WhatTheHealth;
 
@@ -46,6 +50,14 @@ public class Program
         // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddScoped<IAuthorizationHandler, UserOwnsFoodEntryAuthorizationHandler>();
+
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy(Policies.UserOwnsFoodEntry, policy =>
+                policy.AddRequirements(new UserOwnsFoodEntryRequirement()));
+        });
 
         var app = builder.Build();
 

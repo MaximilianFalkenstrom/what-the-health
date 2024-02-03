@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using WhatTheHealth.Infrastructure.Data;
@@ -11,9 +12,11 @@ using WhatTheHealth.Infrastructure.Data;
 namespace WhatTheHealth.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240203131432_AddFoodEntries")]
+    partial class AddFoodEntries
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -34,7 +37,7 @@ namespace WhatTheHealth.Infrastructure.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<Guid>("FoodItemId")
+                    b.Property<Guid>("FoodEntryId")
                         .HasColumnType("uuid");
 
                     b.Property<string>("UserId")
@@ -42,8 +45,6 @@ namespace WhatTheHealth.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FoodItemId");
 
                     b.ToTable("FoodEntries");
                 });
@@ -73,17 +74,6 @@ namespace WhatTheHealth.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("FoodItems");
-                });
-
-            modelBuilder.Entity("WhatTheHealth.Domain.Entities.FoodEntry", b =>
-                {
-                    b.HasOne("WhatTheHealth.Domain.Entities.FoodItem", "FoodItem")
-                        .WithMany()
-                        .HasForeignKey("FoodItemId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FoodItem");
                 });
 #pragma warning restore 612, 618
         }

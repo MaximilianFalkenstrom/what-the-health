@@ -1,16 +1,16 @@
-﻿namespace WhatTheHealth.Core.Services.FoodItems;
+﻿using WhatTheHealth.Domain.Entities;
+
+namespace WhatTheHealth.Core.Services.FoodItems;
 
 public interface IFoodItemService
 {
-    Task<FoodItemDto> Create(FoodItemDto foodItemDto);
+    Task<FoodItem> Create(FoodItem foodItem);
 
-    IEnumerable<FoodItemDto> GetAll();
+    IEnumerable<FoodItem> GetAll();
 
-    Task<FoodItemDto> GetById(string id);
+    Task<FoodItem> GetById(string id);
 
-    Task<FoodItemDto> Edit(FoodItemDto foodItemDto);
-
-    Task Remove(FoodItemDto foodItemDto);
+    Task<FoodItem> Edit(FoodItem foodItem);
 
     Task RemoveById(string id);
 }

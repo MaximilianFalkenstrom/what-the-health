@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WhatTheHealth.Core.Services.FoodEntries;
 using WhatTheHealth.Core.Services.FoodItems;
 using WhatTheHealth.Infrastructure.Data;
 using WhatTheHealth.Infrastructure.Repositories;
@@ -16,6 +17,7 @@ public static class ServiceCollectionExtensions
 
         services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
+        services.AddScoped<IFoodEntryRepository, FoodEntryRepository>();
         services.AddScoped<IFoodItemRepository, FoodItemRepository>();
 
         return services;
