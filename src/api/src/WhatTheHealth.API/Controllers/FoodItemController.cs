@@ -18,31 +18,31 @@ public class FoodItemController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<FoodItem>> CreateAsync(FoodItem foodItem)
+    public async Task<ActionResult<FoodItemDto>> CreateAsync(FoodItemDto foodItem)
     {
         return await _foodItemService.Create(foodItem);
     }
 
     [HttpGet]
-    public IEnumerable<FoodItem> GetAll()
+    public IEnumerable<FoodItemDto> GetAll()
     {
         return _foodItemService.GetAll();
     }
 
     [HttpGet("{id}")]
-    public async Task<FoodItem> GetById([FromRoute] string id)
+    public async Task<FoodItemDto> GetById([FromRoute] string id)
     {
         return await _foodItemService.GetById(id);
     }
 
     [HttpPatch]
-    public async Task<FoodItem> Update([FromBody]FoodItem foodItem)
+    public async Task<FoodItemDto> Update([FromBody] FoodItemDto foodItem)
     {
         return await _foodItemService.Edit(foodItem);
     }
 
     [HttpDelete]
-    public async Task Delete([FromBody]FoodItem foodItem)
+    public async Task Delete([FromBody] FoodItemDto foodItem)
     {
         await _foodItemService.Remove(foodItem);
     }
