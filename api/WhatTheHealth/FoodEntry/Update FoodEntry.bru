@@ -1,0 +1,20 @@
+meta {
+  name: Update FoodEntry
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseurl}}/api/foodentry
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "139b4786-ff0a-44e5-919a-3f2fe5c45159",
+    "foodEntryId": "6b3390bf-14ea-461f-b253-dc1163e5cabf",
+    "amount": 4,
+    "date": "2024-01-31"
+  }
+}

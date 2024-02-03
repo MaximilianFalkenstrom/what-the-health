@@ -13,10 +13,10 @@ export default function NewFoodItem() {
   const [foodItem, setFoodItem] = useState<FoodItem>({
     id: undefined,
     name: '',
-    calories: '',
-    carbohydrates: '',
-    fat: '',
-    protein: ''
+    calories: 0,
+    carbohydrates: 0,
+    fat: 0,
+    protein: 0
   });
 
   const createFoodItem = async (newFoodItem: FoodItem) => {
@@ -45,7 +45,7 @@ export default function NewFoodItem() {
       const createdFoodItem: FoodItem = await response.json();
 
       if (createdFoodItem.id) {
-        navigate(`/food/${createdFoodItem.id}`);
+        navigate(`/food/item/${createdFoodItem.id}`);
       }
     }
     
@@ -72,7 +72,7 @@ export default function NewFoodItem() {
           id="calories"
           type="text"
           value={foodItem.calories}
-          onChange={(e) => setFoodItem({...foodItem, ["calories"]: e.target.value})}
+          onChange={(e) => setFoodItem({...foodItem, ["calories"]: parseInt(e.target.value)})}
         />
       </div>
       <div>
@@ -81,7 +81,7 @@ export default function NewFoodItem() {
           id="carbs"
           type="text"
           value={foodItem.carbohydrates}
-          onChange={(e) => setFoodItem({...foodItem, ["carbohydrates"]: e.target.value})}
+          onChange={(e) => setFoodItem({...foodItem, ["carbohydrates"]: parseInt(e.target.value)})}
         />
       </div>
       <div>
@@ -90,7 +90,7 @@ export default function NewFoodItem() {
           id="protein"
           type="text"
           value={foodItem.protein}
-          onChange={(e) => setFoodItem({...foodItem, ["protein"]: e.target.value})}
+          onChange={(e) => setFoodItem({...foodItem, ["protein"]: parseInt(e.target.value)})}
         />
       </div>
       <div>
@@ -99,7 +99,7 @@ export default function NewFoodItem() {
           id="fat"
           type="text"
           value={foodItem.fat}
-          onChange={(e) => setFoodItem({...foodItem, ["fat"]: e.target.value})}
+          onChange={(e) => setFoodItem({...foodItem, ["fat"]: parseInt(e.target.value)})}
         />
       </div>
       <div>

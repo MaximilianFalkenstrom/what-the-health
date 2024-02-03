@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using WhatTheHealth.API.Dtos;
+using WhatTheHealth.API.Dtos.Extensions;
 using WhatTheHealth.Core.Services.FoodItems;
-using WhatTheHealth.Domain.Entities;
 
 namespace WhatTheHealth.API.Controllers;
 
@@ -18,33 +19,39 @@ public class FoodItemController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<FoodItemDto>> CreateAsync(FoodItemDto foodItem)
+    public async Task<ActionResult<FoodItemDto>> CreateAsync(FoodItemDto foodItemDto)
     {
-        return await _foodItemService.Create(foodItem);
+        var foodItem = foodItemDto.ToFoodItem();
+
+        var createdFoodItem = await _foodItemService.Create(foodItem);
+
+        return createdFoodItem.ToFoodItemDto();
     }
 
     [HttpGet]
     public IEnumerable<FoodItemDto> GetAll()
     {
-        return _foodItemService.GetAll();
+        var foodItems = _foodItemService.GetAll();
+
+        return foodItems.Select(foodItem => foodItem.ToFoodItemDto());
     }
 
     [HttpGet("{id}")]
     public async Task<FoodItemDto> GetById([FromRoute] string id)
     {
-        return await _foodItemService.GetById(id);
+        var foodItem = await _foodItemService.GetById(id);
+
+        return foodItem.ToFoodItemDto();
     }
 
     [HttpPatch]
-    public async Task<FoodItemDto> Update([FromBody] FoodItemDto foodItem)
+    public async Task<FoodItemDto> Update([FromBody] FoodItemDto foodItemDto)
     {
-        return await _foodItemService.Edit(foodItem);
-    }
+        var foodItem = foodItemDto.ToFoodItem();
 
-    [HttpDelete]
-    public async Task Delete([FromBody] FoodItemDto foodItem)
-    {
-        await _foodItemService.Remove(foodItem);
+        var updatedFoodItem = await _foodItemService.Edit(foodItem);
+
+        return updatedFoodItem.ToFoodItemDto();
     }
 
     [HttpDelete("{id}")]

@@ -1,0 +1,23 @@
+meta {
+  name: Create FoodEntry
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseurl}}/api/foodentry
+  body: json
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "foodEntryId": "6b3390bf-14ea-461f-b253-dc1163e5cabf",
+    "amount": 3,
+    "date": "2024-01-31"
+  }
+}

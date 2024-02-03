@@ -3,6 +3,7 @@ import NewFoodItemButton from "../components/NewFoodItemButton";
 import CalorieCircle from "../components/CalorieCircle";
 import LoginButton from "../components/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
+import NewFoodEntryButton from "../components/NewFoodEntryButton";
 
 function Home() {
   const { isAuthenticated } = useAuth0();
@@ -37,6 +38,7 @@ function Home() {
         </div>
       </div>
       <NewFoodItemButton />
+      <NewFoodEntryButton />
     </>
   );
 }

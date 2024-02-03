@@ -6,7 +6,7 @@ export default function NewFoodItemButton() {
 
   return (
     <div className="newFoodItem">
-      <button onClick={() => navigate("/food/new")}>+</button>
+      <button onClick={() => navigate("/food/item/new")}>Add food item</button>
     </div>
   );
 }
