@@ -5,7 +5,7 @@ export default function NewFoodItemButton() {
   const navigate = useNavigate();
 
   return (
-    <div className="addFoodItem">
+    <div className="newFoodItem">
       <button onClick={() => navigate("/food/new")}>+</button>
     </div>
   );
