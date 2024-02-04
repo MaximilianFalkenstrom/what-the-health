@@ -21,16 +21,20 @@ public class Program
 
         var MyAllowSpecificOrigins = "AllowedOrigins";
 
-        builder.Services.AddCors(options =>
+        var origins = builder.Configuration.GetValue<string>("Authentication:Origins");
+        if (origins != null)
         {
-            options.AddPolicy(name: MyAllowSpecificOrigins,
-                                policy =>
-                                {
-                                    policy.AllowCredentials();
-                                    policy.AllowAnyHeader();
-                                    policy.AllowAnyOrigin();
-                                });
-        });
+            builder.Services.AddCors(options =>
+            {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                                  policy =>
+                                  {
+                                      policy.WithOrigins(origins);
+                                      policy.AllowCredentials();
+                                      policy.AllowAnyHeader();
+                                  });
+            });
+        }
 
         builder.Services.AddAuthentication(options =>
         {
