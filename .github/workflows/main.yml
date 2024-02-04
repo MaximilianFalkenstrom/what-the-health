@@ -2,7 +2,7 @@ name: Deploy Backend
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "feature/fix-docker-action" ]
   workflow_dispatch:
 
 jobs:
@@ -20,8 +20,8 @@ jobs:
           password: ${{ secrets.SCALEWAY_API_KEY }}
           registry: ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}
       - name: Build the Docker image
-        run: docker build ./src/api --file ./src/api/src/WhatTheHealth.API/Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/ct-what-the-health-backend:$(date +%s)
+        run: docker build ./src/api --file ./src/api/src/WhatTheHealth.API/Dockerfile -t ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/ct-what-the-health-backend
       - name: Push the Docker Image
-        run: docker push ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/my-docker-image
+        run: docker push ${{ secrets.CONTAINER_REGISTRY_ENDPOINT }}/ct-what-the-health-backend
 
       
