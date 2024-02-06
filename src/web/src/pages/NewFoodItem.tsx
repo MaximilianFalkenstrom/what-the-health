@@ -1,8 +1,8 @@
-import { useState } from "react";
-import "./css/NewFoodItem.css";
 import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useForm } from "@mantine/form";
+import { Box, Button, Group, TextInput, Text } from "@mantine/core";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -10,18 +10,9 @@ export default function NewFoodItem() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
-  const [foodItem, setFoodItem] = useState<FoodItem>({
-    id: undefined,
-    name: '',
-    calories: 0,
-    carbohydrates: 0,
-    fat: 0,
-    protein: 0
-  });
-
-  const createFoodItem = async (newFoodItem: FoodItem) => {
+  const createFoodItem = async (newFoodItem: NewFoodItem) => {
     const token = await getAccessTokenSilently();
-  
+
     if (!token) {
       throw new Error("Could not fetch token"); // TODO: Error handling
     }
@@ -29,82 +20,86 @@ export default function NewFoodItem() {
     return await fetch(`${baseUrl}/api/fooditem`, {
       method: 'POST',
       headers: {
-          "content-type": "application/json",
-          authorization: `Bearer ${token}`,
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newFoodItem),
-  });
+    });
   }
 
-  const mutation = useMutation((newFoodItem: FoodItem) => createFoodItem(newFoodItem));
+  const mutation = useMutation((newFoodItem: NewFoodItem) => createFoodItem(newFoodItem));
 
-  const handleCreate = async () => {
+  const handleCreate = async (foodItem: NewFoodItem) => {
     const response = await mutation.mutateAsync(foodItem);
 
     if (response.ok) {
-      const createdFoodItem: FoodItem = await response.json();
+      const createdFoodItem: NewFoodItem = await response.json();
 
       if (createdFoodItem.id) {
         navigate(`/food/item/${createdFoodItem.id}`);
       }
     }
-    
+
   };
 
   if (mutation.isLoading) {
     return <div>Creating new food item...</div>
   }
 
+  const form = useForm<NewFoodItem>({
+    initialValues: {
+      id: undefined,
+      name: '',
+      calories: undefined,
+      carbohydrates: undefined,
+      protein: undefined,
+      fat: undefined
+    },
+  });
+
   return (
-    <div className="form-container">
-      <div>
-        <label htmlFor="foodName">Food Name</label>
-        <input
-          id="foodName"
-          type="text"
-          value={foodItem.name}
-          onChange={(e) => setFoodItem({...foodItem, ["name"]: e.target.value})}
+    <Box maw={340} mx="auto">
+      <form onSubmit={form.onSubmit(handleCreate)}>
+        <Text size="xl" fw={500}>Create new food item</Text>
+        <TextInput
+          withAsterisk
+          label="Name"
+          placeholder="Name"
+          {...form.getInputProps('name')}
         />
-      </div>
-      <div>
-        <label htmlFor="calories">Calories</label>
-        <input
-          id="calories"
-          type="text"
-          value={foodItem.calories}
-          onChange={(e) => setFoodItem({...foodItem, ["calories"]: parseInt(e.target.value)})}
+
+        <TextInput
+          withAsterisk
+          label="Calories"
+          placeholder="123"
+          {...form.getInputProps('calories')}
         />
-      </div>
-      <div>
-        <label htmlFor="carbs">Carbs</label>
-        <input
-          id="carbs"
-          type="text"
-          value={foodItem.carbohydrates}
-          onChange={(e) => setFoodItem({...foodItem, ["carbohydrates"]: parseInt(e.target.value)})}
+
+        <TextInput
+          withAsterisk
+          label="Carbs (g)"
+          placeholder="12"
+          {...form.getInputProps('carbs')}
         />
-      </div>
-      <div>
-        <label htmlFor="protein">Protein</label>
-        <input
-          id="protein"
-          type="text"
-          value={foodItem.protein}
-          onChange={(e) => setFoodItem({...foodItem, ["protein"]: parseInt(e.target.value)})}
+
+        <TextInput
+          withAsterisk
+          label="Protein (g)"
+          placeholder="12"
+          {...form.getInputProps('protein')}
         />
-      </div>
-      <div>
-        <label htmlFor="fat">Fat</label>
-        <input
-          id="fat"
-          type="text"
-          value={foodItem.fat}
-          onChange={(e) => setFoodItem({...foodItem, ["fat"]: parseInt(e.target.value)})}
+
+        <TextInput
+          withAsterisk
+          label="Fat (g)"
+          placeholder="12"
+          {...form.getInputProps('fat')}
         />
-      </div>
-      <div>
-        <button onClick={handleCreate}>Add food</button>
-      </div>
-    </div>
+
+        <Group justify="flex-end" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </form>
+    </Box>
   );
 }

@@ -1,5 +1,5 @@
 interface FoodItem {
-    id: string | undefined;
+    id: string;
     name: string;
     calories: number;
     carbohydrates: number;

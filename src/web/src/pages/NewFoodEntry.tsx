@@ -1,8 +1,10 @@
-import { useState } from "react";
-import "./css/NewFoodEntry.css";
 import { useNavigate } from "react-router";
 import { useMutation, useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
+import { Box, Button, ComboboxItem, Group, NumberInput, Select, Text } from "@mantine/core";
+import { DateInput, DatesProvider } from "@mantine/dates";
+import { useForm } from "@mantine/form";
+import { useState } from "react";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -10,15 +12,7 @@ export default function NewFoodEntry() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
-  const [foodEntry, setFoodEntry] = useState<FoodEntry>({
-    id: undefined,
-    foodItemId: '',
-    amount: 0,
-    date: '',
-    foodItem: null
-  });
-
-  const createFoodEntry = async (newFoodEntry: FoodEntry) => {
+  const createFoodEntry = async (newFoodEntry: NewFoodEntry) => {
     const token = await getAccessTokenSilently();
   
     if (!token) {
@@ -32,13 +26,15 @@ export default function NewFoodEntry() {
           authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newFoodEntry),
-  });
+    });
   }
 
-  const mutation = useMutation((newFoodEntry: FoodEntry) => createFoodEntry(newFoodEntry));
+  const mutation = useMutation((newFoodEntry: NewFoodEntry) => createFoodEntry(newFoodEntry));
 
-  const handleCreate = async () => {
-    const response = await mutation.mutateAsync(foodEntry);
+  const handleCreate = async (newFoodEntry: NewFoodEntry) => {
+    console.log(newFoodEntry.date)
+    
+    const response = await mutation.mutateAsync(newFoodEntry);
 
     if (response.ok) {
       const createdFoodEntry: FoodEntry = await response.json();
@@ -67,6 +63,17 @@ export default function NewFoodEntry() {
 
   const { isLoading, isError, data, error } = useQuery<FoodItem[], Error>('foodItems', fetchFoodItems);
 
+  const form = useForm<NewFoodEntry>({
+    initialValues: {
+      foodItemId: undefined,
+      amount: 1,
+      date: undefined
+    },
+  });
+  
+  const [foodItem, setFoodItem] = useState<ComboboxItem | null>(null);
+  const [date, setDate] = useState<Date | null>(new Date(Date.now()));
+
   if (mutation.isLoading) {
     return <div>Creating new food entry...</div>
   }
@@ -80,34 +87,44 @@ export default function NewFoodEntry() {
   }
 
   return (
-    <div className="form-container">
-      <div>
-        <label htmlFor="foodItem">Food Item</label>
-        <select name="foodItem" id="foodItem" onChange={(e) => setFoodEntry({...foodEntry, ["foodItemId"]: e.target.value})}>
-          {data?.map(foodItem => <option value={foodItem.id}>{foodItem.name}</option>)}
-        </select>
-      </div>
-      <div>
-        <label htmlFor="amount">Amount</label>
-        <input
-          id="amount"
-          type="text"
-          value={foodEntry.amount}
-          onChange={(e) => setFoodEntry({...foodEntry, ["amount"]: parseInt(e.target.value)})}
+    <Box maw={340} mx="auto">
+      <form onSubmit={form.onSubmit(handleCreate)}>
+        <Text size="xl" fw={500}>Create new food item</Text>
+        
+        <Select
+          label="Food item"
+          placeholder="Pick value"
+          data={data?.map(value => { return {value: value.id, label: value.name}})}
+          value={foodItem ? foodItem.value : null}
+          onChange={(_value, option) => {
+            setFoodItem(option)
+            form.values.foodItemId = option.value
+          }}
+          searchable
         />
-      </div>
-      <div>
-        <label htmlFor="date">Date</label>
-        <input
-          id="date"
-          type="date"
-          value={foodEntry.date}
-          onChange={(e) => setFoodEntry({...foodEntry, ["date"]: e.target.value})}
+
+        <NumberInput
+          label="Amount"
+          placeholder="1"
+          {...form.getInputProps('amount')}
         />
-      </div>
-      <div>
-        <button onClick={handleCreate}>Add food</button>
-      </div>
-    </div>
+
+        <DatesProvider settings={{ timezone: 'UTC' }}>
+          <DateInput
+            label="Date"
+            placeholder="12"
+            value={date}
+            onChange={value => {
+              setDate(value)
+              form.values.date = value?.toISOString().split('T')[0]
+            }}
+          />
+        </DatesProvider>
+
+        <Group justify="flex-end" mt="md">
+          <Button type="submit">Submit</Button>
+        </Group>
+      </form>
+    </Box>
   );
 }

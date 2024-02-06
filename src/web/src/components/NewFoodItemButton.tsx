@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router";
-import './css/NewFoodItemButton.css';
+import { Button, Center } from "@mantine/core";
 
 export default function NewFoodItemButton() {
   const navigate = useNavigate();
 
   return (
-    <div className="newFoodItem">
-      <button onClick={() => navigate("/food/item/new")}>Add food item</button>
-    </div>
+    <Center>
+      <Button onClick={() => navigate("/food/item/new")}>Add food item</Button>
+    </Center>
   );
 }
