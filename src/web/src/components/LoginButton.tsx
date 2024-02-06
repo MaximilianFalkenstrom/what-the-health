@@ -1,9 +1,10 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import { Button } from "@mantine/core";
 
 const LoginButton = () => {
   const { loginWithRedirect } = useAuth0();
 
-  return <button onClick={() => loginWithRedirect()}>Log In</button>;
+  return <Button size="md" onClick={() => loginWithRedirect()}>Log In</Button>;
 };
 
 export default LoginButton;

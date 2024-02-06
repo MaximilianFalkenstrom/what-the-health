@@ -4,56 +4,6 @@ h1 {
 
 }
 
-.calContainer {
-  display: flex;
-  justify-content: center;
-}
-
-.calorieProgressContainer {
-  position: relative;
-  height: 120px;
-  width: 120px;
-  margin-bottom: 20px;
-}
-
-.pieChartOuter {
-  position: absolute;
-  width: 120px;
-  height: 120px;
-  border: 1px solid;
-  padding: 4px;
-  border-radius: 50%;
-}
-
-.pieChartInner {
-  position: absolute;
-  width: 110px;
-  height: 110px;
-  border: 1px solid;
-  border-radius: 50%;
-  text-align: center;
-}
-
-circle {
-  --circleFullness: 360;
-  fill: none;
-  stroke: white;
-  stroke-width: 5px;
-  stroke-dasharray: 360;
-  stroke-dashoffset: 360;
-  animation: anim 2s linear forwards;
-}
-
-@keyframes anim {
-  100% {
-    stroke-dashoffset: var(--circleFullness);
-  }
-} 
-
-svg {
-  position: absolute;
-}
-
 .calories {
   font-size: 2rem;
   margin-top: 18px;
@@ -61,26 +11,4 @@ svg {
 
 p {
   font-size: 0.75rem;
-}
-
-.nutritionsProgressContainer {
-  margin-left: 35px;
-  margin-right: 35px;
-  border-radius: 10px;
-  padding: 10px;
-  border: 2px solid;
-}
-
-.nutritionsProgress {
-  display: flex;
-  justify-content: space-between;
-  text-align: center;
-  margin-left: 15px;
-  margin-right: 15px;
-}
-
-.progressBar progress {
-  display: flex;
-  flex-direction: column;
-  width: 75px;
 }
