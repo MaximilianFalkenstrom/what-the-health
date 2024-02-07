@@ -53,7 +53,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         useRefreshTokens={true}
       >
         <QueryClientProvider client={queryClient}>
-          <MantineProvider>
+          <MantineProvider defaultColorScheme='auto'>
             <App />
           </MantineProvider>
           <ReactQueryDevtools initialIsOpen={false} />

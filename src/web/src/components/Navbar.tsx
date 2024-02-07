@@ -3,6 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import classes from './css/Navbar.module.css';
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import ColorSchemeToggle from './ColorSchemeToggle';
 
 type NavbarProps = {
     isAuthenticated: boolean,
@@ -26,10 +27,13 @@ export default function Navbar(props: NavbarProps) {
                 <Group h="100%" px="md">
                     <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
                     <Group justify="space-between" style={{ flex: 1 }}>
-                        <UnstyledButton size="xl" fw={600} component={Link} to="/">WhatTheHealth</UnstyledButton>
-                        <Group ml="xl" gap="xl" visibleFrom="sm">
-                            <UnstyledButton className={classes.control} component={Link} to="/">Home</UnstyledButton>
+                        <Group>
+                            <UnstyledButton size="xl" fw={600} component={Link} to="/">WhatTheHealth</UnstyledButton>
+                            <Group ml="xl" gap="xl" visibleFrom="sm">
+                                <UnstyledButton className={classes.control} component={Link} to="/">Home</UnstyledButton>
+                            </Group>
                         </Group>
+                        <ColorSchemeToggle />
                     </Group>
                 </Group>
             </AppShell.Header>
