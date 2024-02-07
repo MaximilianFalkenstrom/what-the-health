@@ -1,9 +1,10 @@
-import { AppShell, Burger, Group, UnstyledButton } from '@mantine/core';
+import { AppShell, Burger, Group, Stack, UnstyledButton } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import classes from './css/Navbar.module.css';
 import { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import ColorSchemeToggle from './ColorSchemeToggle';
+import { useAuth0 } from '@auth0/auth0-react';
 
 type NavbarProps = {
     isAuthenticated: boolean,
@@ -12,6 +13,9 @@ type NavbarProps = {
 
 export default function Navbar(props: NavbarProps) {
     const [opened, { toggle }] = useDisclosure();
+    const { logout } = useAuth0();
+
+    const handleLogout = () => logout({ logoutParams: { returnTo: window.location.origin } })
 
     if (!props.isAuthenticated) {
         return props.children;
@@ -33,13 +37,21 @@ export default function Navbar(props: NavbarProps) {
                                 <UnstyledButton className={classes.control} component={Link} to="/">Home</UnstyledButton>
                             </Group>
                         </Group>
-                        <ColorSchemeToggle />
+                        <Group>
+                            <UnstyledButton className={classes.control} onClick={handleLogout} visibleFrom='sm'>Log out</UnstyledButton>
+                            <ColorSchemeToggle />
+                        </Group>
                     </Group>
                 </Group>
             </AppShell.Header>
 
             <AppShell.Navbar py="md" px={4}>
-                <UnstyledButton className={classes.control} component={Link} to="/">Home</UnstyledButton>
+                <Stack justify="space-between" style={{ flex: 1 }}>
+                    <Stack>
+                        <UnstyledButton className={classes.control} component={Link} to="/">Home</UnstyledButton>
+                    </Stack>
+                    <UnstyledButton className={classes.control} onClick={handleLogout}>Log out</UnstyledButton>
+                </Stack>
             </AppShell.Navbar>
 
             <AppShell.Main>
