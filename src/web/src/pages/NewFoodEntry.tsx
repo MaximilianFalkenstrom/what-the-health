@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
 import { useMutation, useQuery } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Box, Button, ComboboxItem, Group, NumberInput, Select, Text } from "@mantine/core";
+import { Box, Button, ComboboxItem, Group, NumberInput, Select, Stack, Text } from "@mantine/core";
 import { DateInput, DatesProvider } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
@@ -89,41 +89,43 @@ export default function NewFoodEntry() {
   return (
     <Box maw={340} mx="auto">
       <form onSubmit={form.onSubmit(handleCreate)}>
-        <Text size="xl" fw={500}>Create new food item</Text>
-        
-        <Select
-          label="Food item"
-          placeholder="Pick value"
-          data={data?.map(value => { return {value: value.id, label: value.name}})}
-          value={foodItem ? foodItem.value : null}
-          onChange={(_value, option) => {
-            setFoodItem(option)
-            form.values.foodItemId = option.value
-          }}
-          searchable
-        />
-
-        <NumberInput
-          label="Amount"
-          placeholder="1"
-          {...form.getInputProps('amount')}
-        />
-
-        <DatesProvider settings={{ timezone: 'UTC' }}>
-          <DateInput
-            label="Date"
-            placeholder="12"
-            value={date}
-            onChange={value => {
-              setDate(value)
-              form.values.date = value?.toISOString().split('T')[0]
+        <Stack gap="md">
+          <Text size="xl" fw={500}>Create new food item</Text>
+          
+          <Select
+            label="Food item"
+            placeholder="Pick value"
+            data={data?.map(value => { return {value: value.id, label: value.name}})}
+            value={foodItem ? foodItem.value : null}
+            onChange={(_value, option) => {
+              setFoodItem(option)
+              form.values.foodItemId = option.value
             }}
+            searchable
           />
-        </DatesProvider>
 
-        <Group justify="flex-end" mt="md">
-          <Button type="submit">Submit</Button>
-        </Group>
+          <NumberInput
+            label="Amount"
+            placeholder="1"
+            {...form.getInputProps('amount')}
+          />
+
+          <DatesProvider settings={{ timezone: 'UTC' }}>
+            <DateInput
+              label="Date"
+              placeholder="12"
+              value={date}
+              onChange={value => {
+                setDate(value)
+                form.values.date = value?.toISOString().split('T')[0]
+              }}
+            />
+          </DatesProvider>
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </Stack>
       </form>
     </Box>
   );

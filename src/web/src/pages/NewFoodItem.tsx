@@ -2,7 +2,7 @@ import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useForm } from "@mantine/form";
-import { Box, Button, Group, TextInput, Text } from "@mantine/core";
+import { Box, Button, Group, TextInput, Text, Stack } from "@mantine/core";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -60,45 +60,48 @@ export default function NewFoodItem() {
   return (
     <Box maw={340} mx="auto">
       <form onSubmit={form.onSubmit(handleCreate)}>
-        <Text size="xl" fw={500}>Create new food item</Text>
-        <TextInput
-          withAsterisk
-          label="Name"
-          placeholder="Name"
-          {...form.getInputProps('name')}
-        />
+        <Stack gap="md">
+          <Text size="xl" fw={500}>Create new food item</Text>
 
-        <TextInput
-          withAsterisk
-          label="Calories"
-          placeholder="123"
-          {...form.getInputProps('calories')}
-        />
+          <TextInput
+            withAsterisk
+            label="Name"
+            placeholder="Name"
+            {...form.getInputProps('name')}
+          />
 
-        <TextInput
-          withAsterisk
-          label="Carbs (g)"
-          placeholder="12"
-          {...form.getInputProps('carbs')}
-        />
+          <TextInput
+            withAsterisk
+            label="Calories"
+            placeholder="123"
+            {...form.getInputProps('calories')}
+          />
 
-        <TextInput
-          withAsterisk
-          label="Protein (g)"
-          placeholder="12"
-          {...form.getInputProps('protein')}
-        />
+          <TextInput
+            withAsterisk
+            label="Carbs (g)"
+            placeholder="12"
+            {...form.getInputProps('carbs')}
+          />
 
-        <TextInput
-          withAsterisk
-          label="Fat (g)"
-          placeholder="12"
-          {...form.getInputProps('fat')}
-        />
+          <TextInput
+            withAsterisk
+            label="Protein (g)"
+            placeholder="12"
+            {...form.getInputProps('protein')}
+          />
 
-        <Group justify="flex-end" mt="md">
-          <Button type="submit">Submit</Button>
-        </Group>
+          <TextInput
+            withAsterisk
+            label="Fat (g)"
+            placeholder="12"
+            {...form.getInputProps('fat')}
+          />
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </Stack>
       </form>
     </Box>
   );
