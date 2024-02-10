@@ -49,9 +49,9 @@ public class FoodEntryRepository : IFoodEntryRepository
         }
     }
 
-    public IEnumerable<FoodEntry> GetAll()
+    public IEnumerable<FoodEntry> GetAllByDate(DateOnly date, string userId)
     {
-        return  _appDbContext.FoodEntries;
+        return _appDbContext.FoodEntries.Include(fe => fe.FoodItem).Where(foodEntry => foodEntry.UserId == userId && foodEntry.Date == date);
     }
 
     public async Task<FoodEntry> GetById(Guid id)

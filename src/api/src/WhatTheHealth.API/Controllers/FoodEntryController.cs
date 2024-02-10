@@ -32,11 +32,13 @@ public class FoodEntryController : ControllerBase
         return createdFoodEntry.ToFoodEntryDto();
     }
 
-    [HttpGet]
-    public IEnumerable<FoodEntryDto> GetAll()
+    [HttpGet("date/{date}")]
+    public IEnumerable<FoodEntryDto> GetAllByDate([FromRoute] DateOnly date)
     {
-        var foodEntries = _foodEntryService.GetAll();
-        
+        var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("Could not find user id"); // TODO: Actual validation
+
+        var foodEntries = _foodEntryService.GetAllByDate(date, userId);
+
         return foodEntries.Select(foodEntry => foodEntry.ToFoodEntryDto());
     }
 
@@ -61,7 +63,7 @@ public class FoodEntryController : ControllerBase
         var userId = User.FindFirstValue(ClaimTypes.NameIdentifier) ?? throw new InvalidOperationException("Could not find user id"); // TODO: Actual validation
 
         var foodEntry = foodEntryDto.ToFoodEntry(userId);
-        
+
         var updatedFoodEntry = await _foodEntryService.Edit(foodEntry);
 
         return updatedFoodEntry.ToFoodEntryDto();

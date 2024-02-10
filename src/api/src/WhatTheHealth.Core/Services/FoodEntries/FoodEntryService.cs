@@ -21,9 +21,9 @@ public class FoodEntryService : IFoodEntryService
         return await _foodEntryRepository.Update(foodEntry);
     }
 
-    public IEnumerable<FoodEntry> GetAll() // TODO: Only get the users own food entries
+    public IEnumerable<FoodEntry> GetAllByDate(DateOnly date, string userId)
     {
-        var foodEntries = _foodEntryRepository.GetAll();
+        var foodEntries = _foodEntryRepository.GetAllByDate(date, userId);
 
         return foodEntries;
     }
