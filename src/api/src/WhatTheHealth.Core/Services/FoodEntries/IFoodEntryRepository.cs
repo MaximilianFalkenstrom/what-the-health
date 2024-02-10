@@ -11,12 +11,14 @@ public interface IFoodEntryRepository
     /// <param name="foodEntry"></param>
     /// <returns>The created <see cref="FoodEntry"/></returns>
     Task<FoodEntry> Create(FoodEntry foodEntry);
-    
+
     /// <summary>
-    /// Retrieves all stored instances of <see cref="FoodEntry"/>.
+    /// Retrieves all stored instances of <see cref="FoodEntry"/> for a specific user and date.
     /// </summary>
+    /// <param name="date"></param>
+    /// <param name="userId"></param>
     /// <returns>A list containing all <see cref="FoodEntry"/>s</returns>
-    IEnumerable<FoodEntry> GetAll();
+    IEnumerable<FoodEntry> GetAllByDate(DateOnly date, string userId);
 
     /// <summary>
     /// Retrieves the <see cref="FoodEntry"/> with the given id.

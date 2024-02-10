@@ -6,7 +6,7 @@ public interface IFoodEntryService
 {
     Task<FoodEntry> Create(FoodEntry foodEntry);
 
-    IEnumerable<FoodEntry> GetAll();
+    IEnumerable<FoodEntry> GetAllByDate(DateOnly date, string userId);
 
     Task<FoodEntry> GetById(string id);
 
