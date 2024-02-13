@@ -15,7 +15,7 @@ public class FoodEntryService : IFoodEntryService
     {
         return await _foodEntryRepository.Create(foodEntry);
     }
-
+    
     public async Task<FoodEntry> Edit(FoodEntry foodEntry)
     {
         return await _foodEntryRepository.Update(foodEntry);

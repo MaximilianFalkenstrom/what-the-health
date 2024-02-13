@@ -32,6 +32,7 @@ public class Program
                                       policy.WithOrigins(origins);
                                       policy.AllowCredentials();
                                       policy.AllowAnyHeader();
+                                      policy.AllowAnyMethod();
                                   });
             });
         }
