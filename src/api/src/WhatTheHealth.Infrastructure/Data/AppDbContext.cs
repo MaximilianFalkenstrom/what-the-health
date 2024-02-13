@@ -8,4 +8,6 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
     public DbSet<FoodItem> FoodItems { get; set; }
 
     public DbSet<FoodEntry> FoodEntries { get; set; }
+
+    public DbSet<UserSetting> UserSettings { get; set; }
 }

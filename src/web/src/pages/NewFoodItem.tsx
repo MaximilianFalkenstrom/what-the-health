@@ -18,16 +18,18 @@ export default function NewFoodItem() {
     }
 
     return await fetch(`${baseUrl}/api/fooditem`, {
-      method: 'POST',
+      method: "POST",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(newFoodItem),
     });
-  }
+  };
 
-  const mutation = useMutation((newFoodItem: NewFoodItem) => createFoodItem(newFoodItem));
+  const mutation = useMutation((newFoodItem: NewFoodItem) =>
+    createFoodItem(newFoodItem)
+  );
 
   const handleCreate = async (foodItem: NewFoodItem) => {
     const response = await mutation.mutateAsync(foodItem);
@@ -39,21 +41,20 @@ export default function NewFoodItem() {
         navigate(`/food/item/${createdFoodItem.id}`);
       }
     }
-
   };
 
   if (mutation.isLoading) {
-    return <div>Creating new food item...</div>
+    return <div>Creating new food item...</div>;
   }
 
   const form = useForm<NewFoodItem>({
     initialValues: {
       id: undefined,
-      name: '',
+      name: "",
       calories: undefined,
       carbohydrates: undefined,
       protein: undefined,
-      fat: undefined
+      fat: undefined,
     },
   });
 
@@ -61,41 +62,43 @@ export default function NewFoodItem() {
     <Box maw={340} mx="auto">
       <form onSubmit={form.onSubmit(handleCreate)}>
         <Stack gap="md">
-          <Text size="xl" fw={500}>Create new food item</Text>
+          <Text size="xl" fw={500}>
+            Create new food item
+          </Text>
 
           <TextInput
             withAsterisk
             label="Name"
             placeholder="Name"
-            {...form.getInputProps('name')}
+            {...form.getInputProps("name")}
           />
 
           <TextInput
             withAsterisk
             label="Calories"
             placeholder="123"
-            {...form.getInputProps('calories')}
+            {...form.getInputProps("calories")}
           />
 
           <TextInput
             withAsterisk
             label="Carbs (g)"
             placeholder="12"
-            {...form.getInputProps('carbs')}
+            {...form.getInputProps("carbs")}
           />
 
           <TextInput
             withAsterisk
             label="Protein (g)"
             placeholder="12"
-            {...form.getInputProps('protein')}
+            {...form.getInputProps("protein")}
           />
 
           <TextInput
             withAsterisk
             label="Fat (g)"
             placeholder="12"
-            {...form.getInputProps('fat')}
+            {...form.getInputProps("fat")}
           />
 
           <Group justify="flex-end" mt="md">
