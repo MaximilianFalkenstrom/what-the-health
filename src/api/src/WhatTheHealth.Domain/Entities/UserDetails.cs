@@ -2,7 +2,7 @@
 
 namespace WhatTheHealth.Domain.Entities;
 
-public record UserSetting
+public record UserDetails
 {
 
     /// <summary>

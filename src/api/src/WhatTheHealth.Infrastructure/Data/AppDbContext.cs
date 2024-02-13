@@ -9,5 +9,5 @@ public class AppDbContext(DbContextOptions<AppDbContext> options) : DbContext(op
 
     public DbSet<FoodEntry> FoodEntries { get; set; }
 
-    public DbSet<UserSetting> UserSettings { get; set; }
+    public DbSet<UserDetails> UserDetails { get; set; }
 }

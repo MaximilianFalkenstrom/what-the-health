@@ -2,7 +2,7 @@
 
 namespace WhatTheHealth.API.Dtos;
 
-public class UserSettingDto
+public class UserDetailsDto
 {
 
     /// <summary>

@@ -5,16 +5,13 @@ import { useNavigate } from "react-router";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
-export default function userSettings() {
+export default function userDetails() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
   const { user } = useAuth0();
 
-  const [userSettingData, setUserSettingData] = useState();
-
-  const [userSetting, setUserSetting] = useState<UserSetting>({
-    id: undefined,
+  const [userDetails, setuserDetails] = useState<UserDetails>({
     userid: user?.sub,
     name: "",
     birthday: "",
@@ -25,51 +22,55 @@ export default function userSettings() {
 
   const fetchInfo = async () => {
     const token = await getAccessTokenSilently();
-    return fetch(`${baseUrl}/api/usersettings`, {
+    return fetch(`${baseUrl}/api/userdetails`, {
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`,
       },
     })
       .then((response) => response.json())
-      .then((responseData) => setUserSettingData(responseData));
+      .then((responseData) => setuserDetails(responseData));
   };
 
   useEffect(() => {
     fetchInfo();
-    console.log(userSettingData);
   }, []);
 
-  const saveUserSetting = async (userSettings: UserSetting) => {
+  const saveUserDetails = async (userDetails: UserDetails) => {
     const token = await getAccessTokenSilently();
 
     if (!token) {
       throw new Error("Could not fetch token"); // TODO: Error handling
     }
-
-    return await fetch(`${baseUrl}/api/usersettings`, {
-      method: "POST",
+    if (!userDetails.name) {
+      return await fetch(`${baseUrl}/api/userdetails`, {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(userDetails),
+      });
+    }
+    return await fetch(`${baseUrl}/api/userdetails`, {
+      method: "PATCH",
       headers: {
         "content-type": "application/json",
         authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify(userSettings),
+      body: JSON.stringify(userDetails),
     });
   };
 
-  const mutation = useMutation((userSettings: UserSetting) =>
-    saveUserSetting(userSettings)
+  const mutation = useMutation((userDetails: UserDetails) =>
+    saveUserDetails(userDetails)
   );
 
   const handleCreate = async () => {
-    const response = await mutation.mutateAsync(userSetting);
+    const response = await mutation.mutateAsync(userDetails);
 
     if (response.ok) {
-      const savedUserSettings: UserSetting = await response.json();
-
-      if (savedUserSettings.id) {
-        navigate(`/`);
-      }
+      navigate(`/`);
     }
   };
 
@@ -84,9 +85,9 @@ export default function userSettings() {
         <input
           id="name"
           type="text"
-          value={userSetting.name}
+          value={userDetails.name}
           onChange={(e) =>
-            setUserSetting({ ...userSetting, ["name"]: e.target.value })
+            setuserDetails({ ...userDetails, ["name"]: e.target.value })
           }
         />
       </div>
@@ -95,10 +96,10 @@ export default function userSettings() {
         <input
           id="calories"
           type="number"
-          value={userSetting.calories}
+          value={userDetails.calories}
           onChange={(e) =>
-            setUserSetting({
-              ...userSetting,
+            setuserDetails({
+              ...userDetails,
               ["calories"]: parseInt(e.target.value),
             })
           }
@@ -109,10 +110,10 @@ export default function userSettings() {
         <input
           id="age"
           type="date"
-          value={userSetting.birthday}
+          value={userDetails.birthday}
           onChange={(e) =>
-            setUserSetting({
-              ...userSetting,
+            setuserDetails({
+              ...userDetails,
               ["birthday"]: e.target.value,
             })
           }
@@ -123,10 +124,10 @@ export default function userSettings() {
         <input
           id="height"
           type="number"
-          value={userSetting.height}
+          value={userDetails.height}
           onChange={(e) =>
-            setUserSetting({
-              ...userSetting,
+            setuserDetails({
+              ...userDetails,
               ["height"]: parseInt(e.target.value),
             })
           }
@@ -137,10 +138,10 @@ export default function userSettings() {
         <input
           id="weight"
           type="number"
-          value={userSetting.weight}
+          value={userDetails.weight}
           onChange={(e) =>
-            setUserSetting({
-              ...userSetting,
+            setuserDetails({
+              ...userDetails,
               ["weight"]: parseInt(e.target.value),
             })
           }

@@ -6,16 +6,15 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace WhatTheHealth.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class AddUserSettings : Migration
+    public partial class SaveUserDetails : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "UserSettings",
+                name: "UserDetails",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
                     UserId = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Calories = table.Column<int>(type: "integer", nullable: false),
@@ -25,7 +24,7 @@ namespace WhatTheHealth.Infrastructure.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserSettings", x => x.Id);
+                    table.PrimaryKey("PK_UserDetails", x => x.UserId);
                 });
         }
 
@@ -33,7 +32,7 @@ namespace WhatTheHealth.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "UserSettings");
+                name: "UserDetails");
         }
     }
 }

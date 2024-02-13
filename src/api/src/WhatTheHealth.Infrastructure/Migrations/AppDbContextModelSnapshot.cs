@@ -75,7 +75,7 @@ namespace WhatTheHealth.Infrastructure.Migrations
                     b.ToTable("FoodItems");
                 });
 
-            modelBuilder.Entity("WhatTheHealth.Domain.Entities.UserSetting", b =>
+            modelBuilder.Entity("WhatTheHealth.Domain.Entities.UserDetails", b =>
                 {
                     b.Property<string>("UserId")
                         .HasColumnType("text");
@@ -98,7 +98,7 @@ namespace WhatTheHealth.Infrastructure.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("UserSettings");
+                    b.ToTable("UserDetails");
                 });
 
             modelBuilder.Entity("WhatTheHealth.Domain.Entities.FoodEntry", b =>

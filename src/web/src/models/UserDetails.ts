@@ -1,5 +1,4 @@
-interface UserSetting {
-    id: string | undefined,
+interface UserDetails {
     userid: string | undefined,
     name: string,
     birthday: string,

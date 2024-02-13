@@ -1,7 +1,7 @@
 import { useNavigate } from "react-router";
-import "./css/UserSettingsButton.css";
+import "./css/UserDetailsButton.css";
 
-export default function UserSettingsButton() {
+export default function UserDetailsButton() {
   const navigate = useNavigate();
 
   return (
@@ -10,11 +10,11 @@ export default function UserSettingsButton() {
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
       />
-      <div className="userSetting">
+      <div className="userDetails">
         <button
-          id="settingsButton"
+          id="detailsButton"
           className="fa fa-gear"
-          onClick={() => navigate("/user/settings")}
+          onClick={() => navigate("/user/details")}
         ></button>
       </div>
     </>

@@ -12,8 +12,8 @@ using WhatTheHealth.Infrastructure.Data;
 namespace WhatTheHealth.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240207184517_AddUserSettings")]
-    partial class AddUserSettings
+    [Migration("20240213193001_SaveUserDetails")]
+    partial class SaveUserDetails
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -78,11 +78,10 @@ namespace WhatTheHealth.Infrastructure.Migrations
                     b.ToTable("FoodItems");
                 });
 
-            modelBuilder.Entity("WhatTheHealth.Domain.Entities.UserSetting", b =>
+            modelBuilder.Entity("WhatTheHealth.Domain.Entities.UserDetails", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
+                    b.Property<string>("UserId")
+                        .HasColumnType("text");
 
                     b.Property<DateOnly>("Birthday")
                         .HasColumnType("date");
@@ -97,16 +96,12 @@ namespace WhatTheHealth.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("text");
-
                     b.Property<double>("Weight")
                         .HasColumnType("double precision");
 
-                    b.HasKey("Id");
+                    b.HasKey("UserId");
 
-                    b.ToTable("UserSettings");
+                    b.ToTable("UserDetails");
                 });
 
             modelBuilder.Entity("WhatTheHealth.Domain.Entities.FoodEntry", b =>

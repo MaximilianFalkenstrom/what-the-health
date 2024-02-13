@@ -3,7 +3,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using WhatTheHealth.Core.Services.FoodEntries;
 using WhatTheHealth.Core.Services.FoodItems;
-using WhatTheHealth.Core.Services.UserSettings;
+using WhatTheHealth.Core.Services.UserDetails;
 using WhatTheHealth.Infrastructure.Data;
 using WhatTheHealth.Infrastructure.Repositories;
 
@@ -20,7 +20,7 @@ public static class ServiceCollectionExtensions
 
         services.AddScoped<IFoodEntryRepository, FoodEntryRepository>();
         services.AddScoped<IFoodItemRepository, FoodItemRepository>();
-        services.AddScoped<IUserSettingRepository, UserSettingRepository>();
+        services.AddScoped<IUserDetailsRepository, UserDetailsRepository>();
 
         return services;
     }

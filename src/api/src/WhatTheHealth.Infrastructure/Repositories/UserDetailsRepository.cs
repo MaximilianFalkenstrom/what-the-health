@@ -1,23 +1,23 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WhatTheHealth.Core.Exceptions;
-using WhatTheHealth.Core.Services.UserSettings;
+using WhatTheHealth.Core.Services.UserDetails;
 using WhatTheHealth.Domain.Entities;
 using WhatTheHealth.Infrastructure.Data;
 
 namespace WhatTheHealth.Infrastructure.Repositories;
 
-public class UserSettingRepository : IUserSettingRepository
+public class UserDetailsRepository : IUserDetailsRepository
 {
     private readonly AppDbContext _appDbContext;
 
-    public UserSettingRepository(AppDbContext appDbContext)
+    public UserDetailsRepository(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
     }
 
-    public async Task<UserSetting> Create(UserSetting userSetting)
+    public async Task<UserDetails> Create(UserDetails userDetails)
     {
-        _appDbContext.UserSettings.Add(userSetting);
+        _appDbContext.UserDetails.Add(userDetails);
 
         var result = await _appDbContext.SaveChangesAsync(CancellationToken.None);
 
@@ -26,12 +26,12 @@ public class UserSettingRepository : IUserSettingRepository
             throw new DbCreateException("Unable to store settings");
         }
 
-        return userSetting;
+        return userDetails;
     }
 
-    public async Task Delete(UserSetting userSetting)
+    public async Task Delete(UserDetails userDetails)
     {
-        var result = await _appDbContext.UserSettings.Where(item => item.UserId == userSetting.UserId).ExecuteDeleteAsync();
+        var result = await _appDbContext.UserDetails.Where(item => item.UserId == userDetails.UserId).ExecuteDeleteAsync();
 
         if (result == 0)
         {
@@ -41,7 +41,7 @@ public class UserSettingRepository : IUserSettingRepository
 
     public async Task DeleteById(string userId)
     {
-        var result = await _appDbContext.UserSettings.Where(userSetting => userSetting.UserId == userId).ExecuteDeleteAsync();
+        var result = await _appDbContext.UserDetails.Where(UserDetails => UserDetails.UserId == userId).ExecuteDeleteAsync();
 
         if (result == 0)
         {
@@ -49,26 +49,26 @@ public class UserSettingRepository : IUserSettingRepository
         }
     }
 
-    public IEnumerable<UserSetting> GetAll()
+    public IEnumerable<UserDetails> GetAll()
     {
-        return  _appDbContext.UserSettings;
+        return  _appDbContext.UserDetails;
     }
 
-    public async Task<UserSetting> GetById(string userId)
+    public async Task<UserDetails> GetById(string userId)
     {
-        var userSetting = await _appDbContext.UserSettings.Where(userSetting => userSetting.UserId == userId).Include("UserSetting").FirstOrDefaultAsync();
+        var userDetails = await _appDbContext.UserDetails.Where(userDetails => userDetails.UserId == userId).FirstOrDefaultAsync();
 
-        if (userSetting == null)
+        if (userDetails == null)
         {
             throw new DbNotFoundException("Unable to find settings");
         }
 
-        return userSetting;
+        return userDetails;
     }
 
-    public async Task<UserSetting> Update(UserSetting userSetting)
+    public async Task<UserDetails> Update(UserDetails userDetails)
     {
-        _appDbContext.Update(userSetting);
+        _appDbContext.Update(userDetails);
 
         var result = await _appDbContext.SaveChangesAsync();
 
@@ -77,6 +77,6 @@ public class UserSettingRepository : IUserSettingRepository
             throw new DbEditException("Unable to update settings");
         }
 
-        return userSetting;
+        return userDetails;
     }
 }
