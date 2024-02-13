@@ -21,7 +21,6 @@ function Home() {
   return (
     <>
       <Container>
-        <UserDetailsButton />
         <Center>
           <h1>What the Health</h1>
         </Center>
@@ -32,6 +31,7 @@ function Home() {
         <Stack py="md">
           <NewFoodItemButton />
           <NewFoodEntryButton />
+          <UserDetailsButton />
         </Stack>
       </Container>
     </>
