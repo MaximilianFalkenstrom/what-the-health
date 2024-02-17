@@ -1,5 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
+import {
+  Box,
+  Button,
+  Group,
+  TextInput,
+  Text,
+  Stack,
+  NumberInput,
+} from "@mantine/core";
+import { DateInput, DatesProvider } from "@mantine/dates";
+import { useForm } from "@mantine/form";
 import { useEffect, useState } from "react";
+
 import { useMutation } from "react-query";
 import { useNavigate } from "react-router";
 
@@ -11,13 +23,17 @@ export default function userDetails() {
 
   const { user } = useAuth0();
 
-  const [userDetails, setuserDetails] = useState<UserDetails>({
-    userid: user?.sub,
-    name: "",
-    birthday: "",
-    height: 0,
-    weight: 0,
-    calories: 0,
+  const [date, setDate] = useState<Date | null>(null);
+
+  const form = useForm<UserDetails>({
+    initialValues: {
+      userid: user?.sub,
+      name: "",
+      birthday: undefined,
+      height: undefined,
+      weight: undefined,
+      calories: undefined,
+    },
   });
 
   const fetchInfo = async () => {
@@ -29,7 +45,16 @@ export default function userDetails() {
       },
     })
       .then((response) => response.json())
-      .then((responseData) => setuserDetails(responseData));
+      .then((responseData) => {
+        form.setValues({
+          name: responseData.name,
+          calories: responseData.calories,
+          birthday: responseData.birthday,
+          height: responseData.height,
+          weight: responseData.weight,
+        });
+        setDate(new Date(responseData.birthday));
+      });
   };
 
   useEffect(() => {
@@ -66,7 +91,7 @@ export default function userDetails() {
     saveUserDetails(userDetails)
   );
 
-  const handleCreate = async () => {
+  const handleCreate = async (userDetails: UserDetails) => {
     const response = await mutation.mutateAsync(userDetails);
 
     if (response.ok) {
@@ -79,77 +104,60 @@ export default function userDetails() {
   }
 
   return (
-    <div className="form-container">
-      <div>
-        <label htmlFor="name">Name</label>
-        <input
-          id="name"
-          type="text"
-          value={userDetails.name}
-          onChange={(e) =>
-            setuserDetails({ ...userDetails, ["name"]: e.target.value })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="calories">Calories</label>
-        <input
-          id="calories"
-          type="number"
-          value={userDetails.calories}
-          onChange={(e) =>
-            setuserDetails({
-              ...userDetails,
-              ["calories"]: parseInt(e.target.value),
-            })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="age">Birthday</label>
-        <input
-          id="age"
-          type="date"
-          value={userDetails.birthday}
-          onChange={(e) =>
-            setuserDetails({
-              ...userDetails,
-              ["birthday"]: e.target.value,
-            })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="height">Height</label>
-        <input
-          id="height"
-          type="number"
-          value={userDetails.height}
-          onChange={(e) =>
-            setuserDetails({
-              ...userDetails,
-              ["height"]: parseInt(e.target.value),
-            })
-          }
-        />
-      </div>
-      <div>
-        <label htmlFor="weight">Weight</label>
-        <input
-          id="weight"
-          type="number"
-          value={userDetails.weight}
-          onChange={(e) =>
-            setuserDetails({
-              ...userDetails,
-              ["weight"]: parseInt(e.target.value),
-            })
-          }
-        />
-      </div>
-      <div>
-        <button onClick={handleCreate}>Save</button>
-      </div>
-    </div>
+    <Box maw={340} mx="auto">
+      <form onSubmit={form.onSubmit(handleCreate)}>
+        <Stack gap="md">
+          <Text size="xl" fw={500}>
+            User Details
+          </Text>
+
+          <TextInput
+            withAsterisk
+            label="Name"
+            placeholder="Name"
+            {...form.getInputProps("name")}
+          />
+
+          <DatesProvider settings={{ timezone: "UTC" }}>
+            <DateInput
+              withAsterisk
+              label="Birthday"
+              placeholder="Birthday"
+              valueFormat="YYYY-MM-DD"
+              value={date}
+              onChange={(value) => {
+                setDate(value);
+                form.values.birthday = value?.toISOString().split("T")[0];
+              }}
+            />
+          </DatesProvider>
+
+          <NumberInput
+            withAsterisk
+            label="Calories"
+            placeholder="0"
+            {...form.getInputProps("calories")}
+          />
+
+          <NumberInput
+            withAsterisk
+            label="Height"
+            placeholder="0"
+            {...form.getInputProps("height")}
+          />
+
+          <NumberInput
+            withAsterisk
+            label="Weight"
+            placeholder="0"
+            {...form.getInputProps("weight")}
+          />
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit">Save</Button>
+          </Group>
+        </Stack>
+      </form>
+    </Box>
   );
 }
