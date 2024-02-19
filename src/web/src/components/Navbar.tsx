@@ -91,7 +91,7 @@ export default function Navbar(props: NavbarProps) {
               href="/user/details"
               label="Personal Details"
               leftSection={<IconUser size="1.5rem" stroke={1.5} />}
-            ></NavLink>
+            />
           </Stack>
           <UnstyledButton className={classes.control} onClick={handleLogout}>
             Log out
