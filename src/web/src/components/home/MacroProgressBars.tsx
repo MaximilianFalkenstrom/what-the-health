@@ -49,17 +49,17 @@ const MacroProgressBars = () => {
     <Flex maw="100%" justify="center" gap="xl" wrap="nowrap">
       <Stack w="100" align="center">
         <Text>Carbs</Text>
-        <Progress w="100%" value={35} />
+        <Progress w="100%" value={(carbs / 105) * 100} />
         <Text size="sm">{carbs}/105g</Text>
       </Stack>
       <Stack w="100" align="center">
         <Text>Protein</Text>
-        <Progress w="100%" value={85} />
+        <Progress w="100%" value={(protein / 121) * 100} />
         <Text size="sm">{protein}/121g</Text>
       </Stack>
       <Stack w="100" align="center">
         <Text>Fat</Text>
-        <Progress w="100%" value={55} />
+        <Progress w="100%" value={(fat / 256) * 100} />
         <Text size="sm">{fat}/256g</Text>
       </Stack>
     </Flex>

@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Center, Divider, RingProgress, Stack, Text } from "@mantine/core";
 import { useQuery } from "react-query";
 import { fetchTodaysFoodEntries } from "../../queries/FoodEntry";
+import { fetchUserDetails } from "../../queries/UserDetails";
 
 const CalorieRing = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -11,6 +12,14 @@ const CalorieRing = () => {
     async () => {
       const token = await getAccessTokenSilently();
       return fetchTodaysFoodEntries(token);
+    }
+  );
+
+  const userDetailsData = useQuery<UserDetails, Error>(
+    "userDetails",
+    async () => {
+      const token = await getAccessTokenSilently();
+      return fetchUserDetails(token);
     }
   );
 
@@ -29,6 +38,10 @@ const CalorieRing = () => {
       )
       .reduce((acc, curr) => acc + curr, 0) ?? 0;
 
+  const calorieRingProgress = userDetailsData.data?.calories
+    ? userDetailsData.data.calories / consumedCalories
+    : 0;
+
   return (
     <Center>
       <RingProgress
@@ -42,11 +55,11 @@ const CalorieRing = () => {
             </Text>
             <Divider w="50" size="sm" />
             <Text size="md" fw={500} ta="center">
-              2000
+              {userDetailsData.data?.calories ?? 2000}
             </Text>
           </Stack>
         }
-        sections={[{ value: 40, color: "cyan" }]}
+        sections={[{ value: calorieRingProgress, color: "cyan" }]}
       />
     </Center>
   );
