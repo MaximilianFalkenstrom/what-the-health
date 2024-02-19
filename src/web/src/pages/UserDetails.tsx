@@ -21,18 +21,15 @@ export default function userDetails() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
-  const { user } = useAuth0();
-
   const [date, setDate] = useState<Date | null>(null);
 
   const form = useForm<UserDetails>({
     initialValues: {
-      userid: user?.sub,
       name: "",
       birthday: undefined,
-      height: undefined,
-      weight: undefined,
-      calories: undefined,
+      height: 0,
+      weight: 0,
+      calories: 0,
     },
   });
 
