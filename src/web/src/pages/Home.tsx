@@ -5,7 +5,6 @@ import NewFoodEntryButton from "../components/NewFoodEntryButton";
 import { Center, Container, Stack } from "@mantine/core";
 import MacroProgressBars from "../components/home/MacroProgressBars";
 import CalorieRing from "../components/home/CalorieRing";
-import UserDetailsButton from "../components/UserDetailsButton";
 
 function Home() {
   const { isAuthenticated } = useAuth0();
@@ -31,7 +30,6 @@ function Home() {
         <Stack py="md">
           <NewFoodItemButton />
           <NewFoodEntryButton />
-          <UserDetailsButton />
         </Stack>
       </Container>
     </>
