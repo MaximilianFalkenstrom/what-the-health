@@ -20,10 +20,7 @@ function Home() {
   return (
     <>
       <Container>
-        <Center>
-          <h1>What the Health</h1>
-        </Center>
-        <Center>
+        <Center mt="xl">
           <CalorieRing />
         </Center>
         <MacroProgressBars />

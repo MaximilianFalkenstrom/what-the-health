@@ -86,7 +86,7 @@ export default function NewFoodEntry() {
   });
 
   const [foodItem, setFoodItem] = useState<ComboboxItem | null>(null);
-  const [date, setDate] = useState<Date | null>(new Date(Date.now()));
+  const [date, setDate] = useState<Date | null>();
 
   if (mutation.isLoading) {
     return <div>Creating new food entry...</div>;
@@ -105,7 +105,7 @@ export default function NewFoodEntry() {
       <form onSubmit={form.onSubmit(handleCreate)}>
         <Stack gap="md">
           <Text size="xl" fw={500}>
-            Create new food item
+            Log food
           </Text>
 
           <Select
@@ -131,7 +131,7 @@ export default function NewFoodEntry() {
           <DatesProvider settings={{ timezone: "UTC" }}>
             <DateInput
               label="Date"
-              placeholder="12"
+              placeholder="Pick a date"
               value={date}
               onChange={(value) => {
                 setDate(value);
