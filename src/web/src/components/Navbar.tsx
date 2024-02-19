@@ -86,7 +86,7 @@ export default function Navbar(props: NavbarProps) {
               href="/"
               label="Home"
               leftSection={<IconHome size="1.5rem" stroke={1.5} />}
-            ></NavLink>
+            />
             <NavLink
               href="/user/details"
               label="Personal Details"
