@@ -26,3 +26,6 @@ Make sure to switch out `{MigrationName}` for the name you want your migration t
 Open a terminal to the `WhatTheHealth.API` folder and execute the following command:
 
 `dotnet ef database update`
+
+### Getting the SQL for updating the remote DB
+`dotnet ef migrations script {FromMigrationName} --project ../WhatTheHealth.Infrastructure/WhatTheHealth.Infrastructure.csproj`
