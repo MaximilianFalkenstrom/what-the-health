@@ -8,6 +8,7 @@ import {
   Stack,
   NumberInput,
   LoadingOverlay,
+  Accordion,
 } from "@mantine/core";
 import { DateInput, DatesProvider } from "@mantine/dates";
 import { useForm } from "@mantine/form";
@@ -33,6 +34,9 @@ export default function UserDetails() {
       height: 0,
       weight: 0,
       calories: 0,
+      carbs: 0,
+      protein: 0,
+      fat: 0,
     },
   });
 
@@ -49,6 +53,9 @@ export default function UserDetails() {
         form.setValues({
           name: data.name,
           calories: data.calories,
+          carbs: data.carbs,
+          protein: data.protein,
+          fat: data.fat,
           birthday: data.birthday,
           height: data.height,
           weight: data.weight,
@@ -169,6 +176,36 @@ export default function UserDetails() {
             placeholder="0"
             {...form.getInputProps("weight")}
           />
+
+          <Accordion variant="separated" mt={"md"}>
+            <Accordion.Item value="marcos">
+              <Accordion.Control>Macronutrients</Accordion.Control>
+              <Accordion.Panel>
+                <NumberInput
+                  withAsterisk
+                  label="Carbs"
+                  placeholder="0"
+                  {...form.getInputProps("carbs")}
+                />
+              </Accordion.Panel>
+              <Accordion.Panel>
+                <NumberInput
+                  withAsterisk
+                  label="Protein"
+                  placeholder="0"
+                  {...form.getInputProps("protein")}
+                />
+              </Accordion.Panel>
+              <Accordion.Panel>
+                <NumberInput
+                  withAsterisk
+                  label="Fat"
+                  placeholder="0"
+                  {...form.getInputProps("fat")}
+                />
+              </Accordion.Panel>
+            </Accordion.Item>
+          </Accordion>
 
           <Group justify="flex-end" mt="md">
             <Button type="submit">Save</Button>

@@ -16,6 +16,21 @@ public class UserDetailsDto
     public required int Calories { get; set; }
 
     /// <summary>
+    /// Carbs per day of the user in question
+    /// </summary>
+    public double Carbs { get; set; }
+
+    /// <summary>
+    /// Protein per day of the user in question
+    /// </summary>
+    public double Protein { get; set; }
+
+    /// <summary>
+    /// Fat per day of the user in question
+    /// </summary>
+    public double Fat { get; set; }
+
+    /// <summary>
     /// Height of the user in question
     /// </summary>
     public double Height { get; set; }
