@@ -16,6 +16,7 @@ import { notifications } from "@mantine/notifications";
 import { useMutation, useQuery } from "react-query";
 import { fetchUserDetails } from "../queries/UserDetails";
 import { useState } from "react";
+import { IconCheck, IconX } from "@tabler/icons-react";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -92,12 +93,16 @@ export default function UserDetails() {
     {
       onError: async () =>
         notifications.show({
+          color: "red",
+          icon: <IconX />,
           title: "Error",
           message:
             "Your user settings could not be saved at this time. Please try again.",
         }),
       onSuccess: async () =>
         notifications.show({
+          color: "teal",
+          icon: <IconCheck />,
           title: "Saved",
           message: "Your user settings were successfully saved.",
         }),
