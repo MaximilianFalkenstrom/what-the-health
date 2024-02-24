@@ -1,55 +1,73 @@
 import { useNavigate } from "react-router";
 import { useMutation } from "react-query";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useForm } from "@mantine/form";
-import { Box, Button, Group, TextInput, Text, Stack } from "@mantine/core";
-
-const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
+import { useForm, zodResolver } from "@mantine/form";
+import {
+  Box,
+  Button,
+  Group,
+  TextInput,
+  Text,
+  Stack,
+  LoadingOverlay,
+  NumberInput,
+} from "@mantine/core";
+import { postFoodItem } from "../queries/FoodItem";
+import { notifications } from "@mantine/notifications";
+import { IconX, IconCheck } from "@tabler/icons-react";
+import { foodItemValidationSchema } from "../validation/FoodItem";
 
 export default function NewFoodItem() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
-  const createFoodItem = async (newFoodItem: NewFoodItem) => {
+  const createFoodItem = async (
+    newFoodItem: NewFoodItem
+  ): Promise<Response> => {
     const token = await getAccessTokenSilently();
 
-    if (!token) {
-      throw new Error("Could not fetch token"); // TODO: Error handling
-    }
-
-    return await fetch(`${baseUrl}/api/fooditem`, {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(newFoodItem),
-    });
+    return await postFoodItem(newFoodItem, token);
   };
 
-  const mutation = useMutation((newFoodItem: NewFoodItem) =>
-    createFoodItem(newFoodItem)
+  const mutation = useMutation(
+    (newFoodItem: NewFoodItem) => createFoodItem(newFoodItem),
+    {
+      onError: async () =>
+        notifications.show({
+          color: "red",
+          icon: <IconX />,
+          title: "Error",
+          message:
+            "Food item could not be created at this time. Please try again.",
+        }),
+      onSuccess: async () =>
+        notifications.show({
+          color: "teal",
+          icon: <IconCheck />,
+          title: "Saved",
+          message: "Your food item was successfully saved.",
+        }),
+    }
   );
 
   const handleCreate = async (foodItem: NewFoodItem) => {
     const response = await mutation.mutateAsync(foodItem);
 
-    if (response.ok) {
-      const createdFoodItem: NewFoodItem = await response.json();
+    if (!response.ok) {
+      return;
+    }
 
-      if (createdFoodItem.id) {
-        navigate(`/food/item/${createdFoodItem.id}`);
-      }
+    const createdFoodItem = await (response.json() as Promise<FoodItem>);
+
+    if (createdFoodItem.id) {
+      navigate(-1);
     }
   };
 
-  if (mutation.isLoading) {
-    return <div>Creating new food item...</div>;
-  }
-
   const form = useForm<NewFoodItem>({
+    validateInputOnChange: true,
+    validate: zodResolver(foodItemValidationSchema),
     initialValues: {
-      id: undefined,
       name: "",
       calories: undefined,
       carbohydrates: undefined,
@@ -60,6 +78,11 @@ export default function NewFoodItem() {
 
   return (
     <Box maw={340} mx="auto">
+      <LoadingOverlay
+        visible={mutation.isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <form onSubmit={form.onSubmit(handleCreate)}>
         <Stack gap="md">
           <Text size="xl" fw={500}>
@@ -73,31 +96,31 @@ export default function NewFoodItem() {
             {...form.getInputProps("name")}
           />
 
-          <TextInput
+          <NumberInput
             withAsterisk
             label="Calories"
-            placeholder="123"
+            placeholder="0"
             {...form.getInputProps("calories")}
           />
 
-          <TextInput
+          <NumberInput
             withAsterisk
             label="Carbs (g)"
-            placeholder="12"
+            placeholder="0"
             {...form.getInputProps("carbs")}
           />
 
-          <TextInput
+          <NumberInput
             withAsterisk
             label="Protein (g)"
-            placeholder="12"
+            placeholder="0"
             {...form.getInputProps("protein")}
           />
 
-          <TextInput
+          <NumberInput
             withAsterisk
             label="Fat (g)"
-            placeholder="12"
+            placeholder="0"
             {...form.getInputProps("fat")}
           />
 
