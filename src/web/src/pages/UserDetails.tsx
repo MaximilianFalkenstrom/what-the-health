@@ -7,19 +7,20 @@ import {
   Text,
   Stack,
   NumberInput,
+  LoadingOverlay,
 } from "@mantine/core";
 import { DateInput, DatesProvider } from "@mantine/dates";
 import { useForm } from "@mantine/form";
-import { useEffect, useState } from "react";
+import { notifications } from "@mantine/notifications";
 
-import { useMutation } from "react-query";
-import { useNavigate } from "react-router";
+import { useMutation, useQuery } from "react-query";
+import { fetchUserDetails } from "../queries/UserDetails";
+import { useState } from "react";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
 export default function UserDetails() {
   const { getAccessTokenSilently } = useAuth0();
-  const navigate = useNavigate();
 
   const [isNew, setIsNew] = useState<boolean>(true);
   const [date, setDate] = useState<Date | null>(null);
@@ -34,32 +35,28 @@ export default function UserDetails() {
     },
   });
 
-  const fetchInfo = async () => {
-    const token = await getAccessTokenSilently();
-    return fetch(`${baseUrl}/api/userdetails`, {
-      headers: {
-        "content-type": "application/json",
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => response.json())
-      .then((responseData) => {
+  const userDetails = useQuery<UserDetails, Error>(
+    "userDetails",
+    async () => {
+      const token = await getAccessTokenSilently();
+      return fetchUserDetails(token);
+    },
+    {
+      staleTime: Infinity,
+      onSuccess: (data: UserDetails) => {
         form.setValues({
-          name: responseData.name,
-          calories: responseData.calories,
-          birthday: responseData.birthday,
-          height: responseData.height,
-          weight: responseData.weight,
+          name: data.name,
+          calories: data.calories,
+          birthday: data.birthday,
+          height: data.height,
+          weight: data.weight,
         });
 
         setIsNew(false);
-        setDate(new Date(responseData.birthday));
-      });
-  };
-
-  useEffect(() => {
-    fetchInfo();
-  });
+        setDate(new Date(Date.parse(data.birthday ?? "")));
+      },
+    }
+  );
 
   const saveUserDetails = async (userDetails: UserDetails) => {
     const token = await getAccessTokenSilently();
@@ -89,24 +86,33 @@ export default function UserDetails() {
     });
   };
 
-  const mutation = useMutation((userDetails: UserDetails) =>
-    saveUserDetails(userDetails)
+  const mutation = useMutation(
+    (userDetails: UserDetails) => saveUserDetails(userDetails),
+    {
+      onError: async () =>
+        notifications.show({
+          title: "Error",
+          message:
+            "Your user settings could not be saved at this time. Please try again.",
+        }),
+      onSuccess: async () =>
+        notifications.show({
+          title: "Saved",
+          message: "Your user settings were successfully saved.",
+        }),
+    }
   );
 
-  const handleCreate = async (userDetails: UserDetails) => {
-    const response = await mutation.mutateAsync(userDetails);
-
-    if (response.ok) {
-      navigate(`/`);
-    }
-  };
-
-  if (mutation.isLoading) {
-    return <div>Saving...</div>;
-  }
+  const handleCreate = async (userDetails: UserDetails) =>
+    await mutation.mutateAsync(userDetails);
 
   return (
     <Box maw={340} mx="auto">
+      <LoadingOverlay
+        visible={mutation.isLoading || userDetails.isLoading}
+        zIndex={1000}
+        overlayProps={{ radius: "sm", blur: 2 }}
+      />
       <form onSubmit={form.onSubmit(handleCreate)}>
         <Stack gap="md">
           <Text size="xl" fw={500}>
@@ -129,7 +135,10 @@ export default function UserDetails() {
               value={date}
               onChange={(value) => {
                 setDate(value);
-                form.values.birthday = value?.toISOString().split("T")[0];
+                form.setFieldValue(
+                  "birthday",
+                  value?.toISOString().split("T")[0]
+                );
               }}
             />
           </DatesProvider>

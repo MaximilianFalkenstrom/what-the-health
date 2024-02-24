@@ -1,22 +1,28 @@
 // Import styles of packages that you've installed.
 // All packages except `@mantine/hooks` require styles imports
-import '@mantine/core/styles.css';
-import '@mantine/dates/styles.css';
+import "@mantine/core/styles.css";
+import "@mantine/dates/styles.css";
+import "@mantine/notifications/styles.css";
 
 import "./index.css";
 
 import React, { PropsWithChildren } from "react";
 import ReactDOM from "react-dom/client";
 import { BrowserRouter, useNavigate } from "react-router-dom";
-import { AppState, Auth0Provider, Auth0ProviderOptions } from "@auth0/auth0-react";
+import {
+  AppState,
+  Auth0Provider,
+  Auth0ProviderOptions,
+} from "@auth0/auth0-react";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { ReactQueryDevtools } from "react-query/devtools";
 
-import { MantineProvider } from '@mantine/core';
-import App from './App';
+import { MantineProvider } from "@mantine/core";
+import App from "./App";
 
-import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
+import { Notifications } from "@mantine/notifications";
 
 dayjs.extend(customParseFormat);
 
@@ -39,7 +45,9 @@ const Auth0ProviderWithRedirectCallback = ({
 
 const queryClient = new QueryClient();
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+const root = ReactDOM.createRoot(document.getElementById("root")!);
+
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Auth0ProviderWithRedirectCallback
@@ -49,11 +57,12 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
           audience: import.meta.env.VITE_AUTH0_AUDIENCE,
           redirect_uri: window.location.origin,
         }}
-        cacheLocation='localstorage'
+        cacheLocation="localstorage"
         useRefreshTokens={true}
       >
         <QueryClientProvider client={queryClient}>
-          <MantineProvider defaultColorScheme='auto'>
+          <MantineProvider defaultColorScheme="auto">
+            <Notifications position="bottom-left" zIndex={1000} />
             <App />
           </MantineProvider>
           <ReactQueryDevtools initialIsOpen={false} />
