@@ -39,7 +39,7 @@ const CalorieRing = () => {
       .reduce((acc, curr) => acc + curr, 0) ?? 0;
 
   const calorieRingProgress = userDetailsData.data?.calories
-    ? userDetailsData.data.calories / consumedCalories
+    ? (consumedCalories / userDetailsData.data.calories) * 100
     : 0;
 
   return (
