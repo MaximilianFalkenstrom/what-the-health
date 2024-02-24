@@ -17,10 +17,11 @@ import { useNavigate } from "react-router";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
-export default function userDetails() {
+export default function UserDetails() {
   const { getAccessTokenSilently } = useAuth0();
   const navigate = useNavigate();
 
+  const [isNew, setIsNew] = useState<boolean>(true);
   const [date, setDate] = useState<Date | null>(null);
 
   const form = useForm<UserDetails>({
@@ -50,13 +51,15 @@ export default function userDetails() {
           height: responseData.height,
           weight: responseData.weight,
         });
+
+        setIsNew(false);
         setDate(new Date(responseData.birthday));
       });
   };
 
   useEffect(() => {
     fetchInfo();
-  }, []);
+  });
 
   const saveUserDetails = async (userDetails: UserDetails) => {
     const token = await getAccessTokenSilently();
@@ -64,7 +67,8 @@ export default function userDetails() {
     if (!token) {
       throw new Error("Could not fetch token"); // TODO: Error handling
     }
-    if (!userDetails.name) {
+
+    if (isNew) {
       return await fetch(`${baseUrl}/api/userdetails`, {
         method: "POST",
         headers: {
@@ -74,6 +78,7 @@ export default function userDetails() {
         body: JSON.stringify(userDetails),
       });
     }
+
     return await fetch(`${baseUrl}/api/userdetails`, {
       method: "PATCH",
       headers: {
