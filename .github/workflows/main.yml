@@ -2,15 +2,13 @@ name: Deploy Backend
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
     # Publish semver tags as releases.
-    tags: [ 'v*.*.*' ]
+    tags: ["v*.*.*"]
   workflow_dispatch:
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -27,19 +25,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Build image 
+      - name: Build image
         run: docker build ./src/api --file ./src/api/src/WhatTheHealth.API/Dockerfile -t what-the-health/backend
 
-      - name: Install doctl 
+      - name: Install doctl
         uses: digitalocean/action-doctl@v2
         with:
           token: ${{ secrets.DIGITALOCEAN_API_KEY }}
 
-      - name: Log in to DO Container Registry 
+      - name: Log in to DO Container Registry
         run: doctl registry login --expiry-seconds 600
 
       - name: Tag image
         run: docker tag what-the-health/backend registry.digitalocean.com/cr-what-the-health/what-the-health-backend:${{ env.time }}
 
-      - name: Push image to DO Container Registry 
+      - name: Tag image
+        run: docker tag what-the-health/backend registry.digitalocean.com/cr-what-the-health/what-the-health-backend:latest
+
+      - name: Push image to DO Container Registry
         run: docker push registry.digitalocean.com/cr-what-the-health/what-the-health-backend:${{ env.time }}
+
+      - name: Push image to DO Container Registry
+        run: docker push registry.digitalocean.com/cr-what-the-health/what-the-health-backend:latest
