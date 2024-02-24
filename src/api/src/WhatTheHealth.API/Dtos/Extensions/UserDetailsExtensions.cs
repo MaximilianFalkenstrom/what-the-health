@@ -14,6 +14,9 @@ public static class UserDetailsExtension
             Height = userDetailsDto.Height,
             Weight = userDetailsDto.Weight,
             Calories = userDetailsDto.Calories,
+            Carbs = userDetailsDto.Carbs,
+            Protein = userDetailsDto.Protein,
+            Fat = userDetailsDto.Fat,
         };
     }
 
@@ -23,6 +26,9 @@ public static class UserDetailsExtension
         {
             Name = userDetails.Name,
             Calories = userDetails.Calories,
+            Carbs = userDetails.Carbs,
+            Protein = userDetails.Protein,
+            Fat = userDetails.Fat,
             Birthday = userDetails.Birthday,
             Height = userDetails.Height,
             Weight = userDetails.Weight

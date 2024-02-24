@@ -2,6 +2,7 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Flex, Progress, Stack, Text } from "@mantine/core";
 import { useQuery } from "react-query";
 import { fetchTodaysFoodEntries } from "../../queries/FoodEntry";
+import { fetchUserDetails } from "../../queries/UserDetails";
 
 const MacroProgressBars = () => {
   const { getAccessTokenSilently } = useAuth0();
@@ -11,6 +12,14 @@ const MacroProgressBars = () => {
     async () => {
       const token = await getAccessTokenSilently();
       return fetchTodaysFoodEntries(token);
+    }
+  );
+
+  const userDetailsData = useQuery<UserDetails, Error>(
+    "userDetails",
+    async () => {
+      const token = await getAccessTokenSilently();
+      return fetchUserDetails(token);
     }
   );
 
@@ -45,22 +54,40 @@ const MacroProgressBars = () => {
       )
       .reduce((acc, curr) => acc + curr, 0) ?? 0;
 
+  const carbsProgressBar = userDetailsData.data?.carbs
+    ? (carbs / userDetailsData.data.carbs) * 100
+    : 0;
+
+  const proteinProgressBar = userDetailsData.data?.protein
+    ? (carbs / userDetailsData.data.protein) * 100
+    : 0;
+
+  const fatProgressBar = userDetailsData.data?.fat
+    ? (carbs / userDetailsData.data.fat) * 100
+    : 0;
+
   return (
     <Flex maw="100%" justify="center" gap="xl" wrap="nowrap">
       <Stack w="100" align="center">
         <Text>Carbs</Text>
-        <Progress w="100%" value={(carbs / 105) * 100} />
-        <Text size="sm">{carbs}/105g</Text>
+        <Progress w="100%" value={carbsProgressBar} />
+        <Text size="sm">
+          {carbs}/{userDetailsData?.data?.carbs}g
+        </Text>
       </Stack>
       <Stack w="100" align="center">
         <Text>Protein</Text>
-        <Progress w="100%" value={(protein / 121) * 100} />
-        <Text size="sm">{protein}/121g</Text>
+        <Progress w="100%" value={proteinProgressBar} />
+        <Text size="sm">
+          {protein}/{userDetailsData?.data?.protein}g
+        </Text>
       </Stack>
       <Stack w="100" align="center">
         <Text>Fat</Text>
-        <Progress w="100%" value={(fat / 256) * 100} />
-        <Text size="sm">{fat}/256g</Text>
+        <Progress w="100%" value={fatProgressBar} />
+        <Text size="sm">
+          {fat}/{userDetailsData?.data?.fat}g
+        </Text>
       </Stack>
     </Flex>
   );

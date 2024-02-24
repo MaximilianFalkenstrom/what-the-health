@@ -5,4 +5,7 @@ interface UserDetails {
     height: number | undefined;
     weight: number | undefined;
     calories: number | undefined;
+    carbs: number | undefined;
+    protein: number | undefined;
+    fat: number | undefined;
 }
