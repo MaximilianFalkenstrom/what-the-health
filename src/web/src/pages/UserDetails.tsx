@@ -42,7 +42,8 @@ export default function UserDetails() {
       return fetchUserDetails(token);
     },
     {
-      staleTime: Infinity,
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
       onSuccess: (data: UserDetails) => {
         form.setValues({
           name: data.name,
