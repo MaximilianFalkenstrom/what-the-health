@@ -3,8 +3,7 @@ import LoginButton from "../components/LoginButton";
 import { useAuth0 } from "@auth0/auth0-react";
 import NewFoodEntryButton from "../components/NewFoodEntryButton";
 import { Center, Container, Stack } from "@mantine/core";
-import MacroProgressBars from "../components/home/MacroProgressBars";
-import CalorieRing from "../components/home/CalorieRing";
+import DateSelector from "../components/home/DateSelector";
 
 function Home() {
   const { isAuthenticated } = useAuth0();
@@ -20,10 +19,9 @@ function Home() {
   return (
     <>
       <Container>
-        <Center mt="xl">
-          <CalorieRing />
+        <Center>
+          <DateSelector />
         </Center>
-        <MacroProgressBars />
         <Stack py="md">
           <NewFoodItemButton />
           <NewFoodEntryButton />
