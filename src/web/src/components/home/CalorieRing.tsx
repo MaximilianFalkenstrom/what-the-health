@@ -1,17 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Center, Divider, RingProgress, Stack, Text } from "@mantine/core";
 import { useQuery } from "react-query";
-import { fetchTodaysFoodEntries } from "../../queries/FoodEntry";
+import { fetchDayFoodEntries } from "../../queries/FoodEntry";
 import { fetchUserDetails } from "../../queries/UserDetails";
 
-const CalorieRing = () => {
+const CalorieRing = (props: { date: Date }) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const { isLoading, isError, data, error } = useQuery<FoodEntry[], Error>(
     "fetchFoodEntries",
     async () => {
       const token = await getAccessTokenSilently();
-      return fetchTodaysFoodEntries(token);
+      return fetchDayFoodEntries(token, props.date);
     }
   );
 

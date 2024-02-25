@@ -1,17 +1,17 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { Flex, Progress, Stack, Text } from "@mantine/core";
 import { useQuery } from "react-query";
-import { fetchTodaysFoodEntries } from "../../queries/FoodEntry";
+import { fetchDayFoodEntries } from "../../queries/FoodEntry";
 import { fetchUserDetails } from "../../queries/UserDetails";
 
-const MacroProgressBars = () => {
+const MacroProgressBars = (props: { date: Date }) => {
   const { getAccessTokenSilently } = useAuth0();
 
   const { isLoading, isError, data, error } = useQuery<FoodEntry[], Error>(
     "fetchFoodEntries",
     async () => {
       const token = await getAccessTokenSilently();
-      return fetchTodaysFoodEntries(token);
+      return fetchDayFoodEntries(token, props.date);
     }
   );
 
@@ -59,11 +59,11 @@ const MacroProgressBars = () => {
     : 0;
 
   const proteinProgressBar = userDetailsData.data?.protein
-    ? (carbs / userDetailsData.data.protein) * 100
+    ? (protein / userDetailsData.data.protein) * 100
     : 0;
 
   const fatProgressBar = userDetailsData.data?.fat
-    ? (carbs / userDetailsData.data.fat) * 100
+    ? (fat / userDetailsData.data.fat) * 100
     : 0;
 
   return (

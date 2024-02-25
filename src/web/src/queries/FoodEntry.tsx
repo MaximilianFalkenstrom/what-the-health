@@ -17,3 +17,23 @@ export const fetchTodaysFoodEntries = async (
     },
   }).then((res) => res.json() as Promise<FoodEntry[]>);
 };
+
+export const fetchDayFoodEntries = async (
+  token: string,
+  date: Date
+): Promise<FoodEntry[]> => {
+  if (!token) {
+    throw new Error("Could not fetch token"); // TODO: Error handling
+  }
+
+  return await fetch(
+    `${baseUrl}/api/foodentry/date/${date.toISOString().split("T")[0]}`,
+    {
+      method: "GET",
+      headers: {
+        "content-type": "application/json",
+        authorization: `Bearer ${token}`,
+      },
+    }
+  ).then((res) => res.json() as Promise<FoodEntry[]>);
+};
