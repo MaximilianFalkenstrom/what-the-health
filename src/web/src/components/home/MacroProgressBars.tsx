@@ -59,11 +59,11 @@ const MacroProgressBars = (props: { date: Date }) => {
     : 0;
 
   const proteinProgressBar = userDetailsData.data?.protein
-    ? (carbs / userDetailsData.data.protein) * 100
+    ? (protein / userDetailsData.data.protein) * 100
     : 0;
 
   const fatProgressBar = userDetailsData.data?.fat
-    ? (carbs / userDetailsData.data.fat) * 100
+    ? (fat / userDetailsData.data.fat) * 100
     : 0;
 
   return (

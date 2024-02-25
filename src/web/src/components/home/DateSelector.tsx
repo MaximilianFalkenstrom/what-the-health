@@ -3,14 +3,14 @@ import CalorieRing from "./CalorieRing";
 import { DateInput, DatesProvider } from "@mantine/dates";
 import { Box, Center } from "@mantine/core";
 import MacroProgressBars from "./MacroProgressBars";
-import classes from "../CSS/DateSelector.module.css";
+import classes from "../css/DateSelector.module.css";
 
 export default function DateSelector() {
-  const [date, setDate] = useState<Date | null>(new Date(Date.now()));
+  const [date, setDate] = useState<Date>(new Date(Date.now()));
 
   return (
-    <Box>
-      <CalorieRing date={date ? new Date(date) : new Date(Date.now())} />
+    <Box key={date.toString()}>
+      <CalorieRing date={date} />
       <DatesProvider settings={{ timezone: "UTC" }}>
         <Center mt={"xs"}>
           <DateInput
@@ -23,12 +23,14 @@ export default function DateSelector() {
             radius={"xl"}
             value={date}
             onChange={(value) => {
-              setDate(value);
+              if (value) {
+                setDate(value);
+              }
             }}
           />
         </Center>
       </DatesProvider>
-      <MacroProgressBars date={date ? new Date(date) : new Date(Date.now())} />
+      <MacroProgressBars date={date} />
     </Box>
   );
 }
