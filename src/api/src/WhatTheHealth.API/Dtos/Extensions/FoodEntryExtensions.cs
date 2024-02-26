@@ -13,7 +13,9 @@ public static class FoodEntryExtensions
             Amount = foodEntryDto.Amount,
             Date = foodEntryDto.Date,
             FoodItemId = foodEntryDto.FoodItemId,
-            FoodItem = foodEntryDto.FoodItem
+            FoodItem = foodEntryDto.FoodItem,
+            MealTypeId = foodEntryDto.MealTypeId,
+            MealType = foodEntryDto.MealType,
         };
     }
 
@@ -25,7 +27,9 @@ public static class FoodEntryExtensions
             Amount = foodEntry.Amount,
             Date = foodEntry.Date,
             FoodItemId = foodEntry.FoodItemId,
-            FoodItem = foodEntry.FoodItem
+            FoodItem = foodEntry.FoodItem,
+            MealTypeId = foodEntry.MealTypeId,
+            MealType = foodEntry.MealType,
         };
     }
 }

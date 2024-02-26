@@ -14,6 +14,7 @@ import {
 import { DateInput, DatesProvider } from "@mantine/dates";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
+import { fetchMealTypes } from "../queries/MealType";
 
 const baseUrl = import.meta.env.VITE_BACKEND_BASE_URL;
 
@@ -72,6 +73,11 @@ export default function NewFoodEntry() {
     }).then((res) => res.json() as Promise<FoodItem[]>);
   };
 
+  const mealTypes = useQuery<MealType[], Error>("mealTypes", async () => {
+    const token = await getAccessTokenSilently();
+    return fetchMealTypes(token);
+  });
+
   const { isLoading, isError, data, error } = useQuery<FoodItem[], Error>(
     "foodItems",
     fetchFoodItems
@@ -80,12 +86,14 @@ export default function NewFoodEntry() {
   const form = useForm<NewFoodEntry>({
     initialValues: {
       foodItemId: undefined,
+      mealTypeId: undefined,
       amount: 1,
       date: undefined,
     },
   });
 
   const [foodItem, setFoodItem] = useState<ComboboxItem | null>(null);
+  const [mealType, setMealType] = useState<ComboboxItem | null>(null);
   const [date, setDate] = useState<Date | null>();
 
   if (mutation.isLoading) {
@@ -118,6 +126,20 @@ export default function NewFoodEntry() {
             onChange={(_value, option) => {
               setFoodItem(option);
               form.values.foodItemId = option.value;
+            }}
+            searchable
+          />
+
+          <Select
+            label="Meal"
+            placeholder="Choose meal"
+            data={mealTypes.data?.map((value) => {
+              return { value: value.id, label: value.name };
+            })}
+            value={mealType ? mealType.value : null}
+            onChange={(_value, option) => {
+              setMealType(option);
+              form.values.mealTypeId = option.value;
             }}
             searchable
           />
