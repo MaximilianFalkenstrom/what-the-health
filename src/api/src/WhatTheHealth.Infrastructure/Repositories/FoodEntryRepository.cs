@@ -51,12 +51,12 @@ public class FoodEntryRepository : IFoodEntryRepository
 
     public IEnumerable<FoodEntry> GetAllByDate(DateOnly date, string userId)
     {
-        return _appDbContext.FoodEntries.Include(fe => fe.FoodItem).Where(foodEntry => foodEntry.UserId == userId && foodEntry.Date == date);
+        return _appDbContext.FoodEntries.Include(fe => fe.FoodItem).Include(fe => fe.MealType).Where(foodEntry => foodEntry.UserId == userId && foodEntry.Date == date);
     }
 
     public async Task<FoodEntry> GetById(Guid id)
     {
-        var foodEntry = await _appDbContext.FoodEntries.Where(foodEntry => foodEntry.Id == id).Include("FoodItem").FirstOrDefaultAsync();
+        var foodEntry = await _appDbContext.FoodEntries.Where(foodEntry => foodEntry.Id == id).Include("FoodItem").Include("MealType").FirstOrDefaultAsync();
 
         if (foodEntry == null)
         {
