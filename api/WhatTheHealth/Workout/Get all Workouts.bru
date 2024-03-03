@@ -1,0 +1,15 @@
+meta {
+  name: Get all Workouts
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{baseurl}}/api/workout
+  body: none
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}

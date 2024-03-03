@@ -17,7 +17,7 @@ public class MealTypeRepository : IMealTypeRepository
 
     public async Task<MealType> Create(MealType mealType)
     {
-        _appDbContext.MealType.Add(mealType);
+        _appDbContext.MealTypes.Add(mealType);
 
         var result = await _appDbContext.SaveChangesAsync(CancellationToken.None);
 
@@ -31,7 +31,7 @@ public class MealTypeRepository : IMealTypeRepository
 
     public async Task Delete(MealType mealType)
     {
-        var result = await _appDbContext.MealType.Where(item => item.Id == mealType.Id).ExecuteDeleteAsync();
+        var result = await _appDbContext.MealTypes.Where(item => item.Id == mealType.Id).ExecuteDeleteAsync();
 
         if (result == 0)
         {
@@ -41,7 +41,7 @@ public class MealTypeRepository : IMealTypeRepository
 
     public async Task DeleteById(Guid Id)
     {
-        var result = await _appDbContext.MealType.Where(mealType => mealType.Id == Id).ExecuteDeleteAsync();
+        var result = await _appDbContext.MealTypes.Where(mealType => mealType.Id == Id).ExecuteDeleteAsync();
 
         if (result == 0)
         {
@@ -51,12 +51,12 @@ public class MealTypeRepository : IMealTypeRepository
 
     public IEnumerable<MealType> GetAll()
     {
-        return  _appDbContext.MealType;
+        return _appDbContext.MealTypes;
     }
 
     public async Task<MealType> GetById(Guid Id)
     {
-        var mealType = await _appDbContext.MealType.Where(mealType => mealType.Id == Id).FirstOrDefaultAsync();
+        var mealType = await _appDbContext.MealTypes.Where(mealType => mealType.Id == Id).FirstOrDefaultAsync();
 
         if (mealType == null)
         {

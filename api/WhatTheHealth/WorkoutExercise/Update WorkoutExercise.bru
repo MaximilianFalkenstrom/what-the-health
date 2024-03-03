@@ -1,0 +1,19 @@
+meta {
+  name: Update WorkoutExercise
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseurl}}/api/workout/f81e134a-20a7-4f56-9f29-3101d585bd25
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "f81e134a-20a7-4f56-9f29-3101d585bd25",
+    "name": "greagreaaa",
+    "exercises": []
+  }
+}

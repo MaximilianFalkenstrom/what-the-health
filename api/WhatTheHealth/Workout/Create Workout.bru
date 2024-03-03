@@ -1,0 +1,78 @@
+meta {
+  name: Create Workout
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseurl}}/api/workout
+  body: json
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "greagrea",
+    "exercises": [
+      {
+        "exerciseId": "ef068380-941e-454d-8598-700314919e7f",
+        "workoutSets": [
+           {
+             "sets": 1,
+             "reps": 5,
+             "weight": 25.0
+           },
+           {
+             "sets": 2,
+             "reps": 7,
+             "weight": 27.5
+           }
+        ]
+      },
+      {
+        "exerciseId": "6a5075bf-420c-4677-b248-fbd94dfbbef6",
+        "workoutSets": [
+           {
+             "sets": 1,
+             "reps": 8,
+             "weight": 10.0
+           },
+           {
+             "sets": 2,
+             "reps": 5,
+             "weight": 12.5
+           },
+           {
+             "sets": 3,
+             "reps": 12,
+             "weight": 15.0
+           }
+        ]
+      },
+      {
+        "exerciseId": "ef068380-941e-454d-8598-700314919e7f",
+        "workoutSets": [
+           {
+             "sets": 1,
+             "reps": 12,
+             "weight": 25.0
+           },
+           {
+             "sets": 2,
+             "reps": 10,
+             "weight": 27.5
+           },
+           {
+             "sets": 3,
+             "reps": 12,
+             "weight": 25.0
+           }
+        ]
+      }
+    ]
+  }
+}

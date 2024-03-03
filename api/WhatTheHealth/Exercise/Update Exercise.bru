@@ -1,0 +1,19 @@
+meta {
+  name: Update Exercise
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{baseurl}}/api/exercise/97565e15-e905-4184-be41-af1fe611dc91
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "id": "97565e15-e905-4184-be41-af1fe611dc91",
+    "name": "Test2",
+    "exerciseType": 1
+  }
+}

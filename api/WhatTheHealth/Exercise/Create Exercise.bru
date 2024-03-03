@@ -1,0 +1,22 @@
+meta {
+  name: Create Exercise
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{baseurl}}/api/exercise
+  body: json
+  auth: none
+}
+
+auth:bearer {
+  token: {{token}}
+}
+
+body:json {
+  {
+    "name": "shtrshtrshrts",
+    "exerciseType": 1
+  }
+}
