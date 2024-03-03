@@ -7,6 +7,7 @@ import NewFoodEntry from "./pages/NewFoodEntry";
 import FoodEntry from "./pages/FoodEntry";
 import Navbar from "./components/Navbar";
 import UserDetails from "./pages/UserDetails";
+import AfterLogin from "./pages/AfterLogin";
 
 const ProtectedAddFoodEntry = withAuthenticationRequired(NewFoodEntry);
 const ProtectedFoodEntry = withAuthenticationRequired(FoodEntry);
@@ -15,6 +16,8 @@ const ProtectedAddFoodItem = withAuthenticationRequired(NewFoodItem);
 const ProtectedFoodItem = withAuthenticationRequired(FoodItem);
 
 const ProtectedUserDetails = withAuthenticationRequired(UserDetails);
+
+const ProtectedLoginRedirect = withAuthenticationRequired(AfterLogin);
 
 function App() {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -30,6 +33,8 @@ function App() {
           <Route path="/" element={<Home />} />
 
           <Route path="/user/details" element={<ProtectedUserDetails />} />
+
+          <Route path="/login/redirect" element={<ProtectedLoginRedirect />} />
 
           <Route path="/food/entry/new" element={<ProtectedAddFoodEntry />} />
           <Route path="/food/entry/:id" element={<ProtectedFoodEntry />} />
