@@ -12,7 +12,7 @@ export default function DateSelector() {
     <Box key={date.toString()}>
       <CalorieRing date={date} />
       <DatesProvider settings={{ timezone: "UTC" }}>
-        <Center mt={"xs"}>
+        <Center mt={"xs"} mb={"xs"}>
           <DateInput
             classNames={{
               input: classes.date,
